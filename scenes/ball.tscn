@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://4bi461trk0xs"]
+
+[ext_resource type="Script" uid="uid://dwf6uawg3in6k" path="res://scripts/componnets/CollisionShape2polygon.gd" id="1_7s4qf"]
+[ext_resource type="Script" uid="uid://di275fwyrwd7u" path="res://scripts/ball.gd" id="1_cxlvu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n1dj2"]
+radius = 50.0
+
+[node name="ball" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 3
+gravity_scale = 0.0
+lock_rotation = true
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 4
+linear_damp_mode = 1
+script = ExtResource("1_cxlvu")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 1, 0, 1)
+antialiased = true
+polygon = PackedVector2Array(50, 0, 46.9846, 17.101, 38.3022, 32.1394, 25, 43.3013, 8.68241, 49.2404, -8.68241, 49.2404, -25, 43.3013, -38.3022, 32.1394, -46.9846, 17.101, -50, 6.12303e-15, -46.9846, -17.101, -38.3022, -32.1394, -25, -43.3013, -8.68241, -49.2404, 8.68241, -49.2404, 25, -43.3013, 38.3022, -32.1394, 46.9846, -17.101)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n1dj2")
+
+[node name="CS2P" type="Node" parent="." node_paths=PackedStringArray("collision", "polygon")]
+script = ExtResource("1_7s4qf")
+collision = NodePath("../CollisionShape2D")
+polygon = NodePath("../Polygon2D")
+esp = 18
+enable = false
+metadata/_custom_type_script = "uid://dwf6uawg3in6k"
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "现实速度大小和方向"

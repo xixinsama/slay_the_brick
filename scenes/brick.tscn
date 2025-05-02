@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://l28w4r2njqbr"]
+
+[ext_resource type="Script" uid="uid://0vtmeaqhlus5" path="res://scripts/brick.gd" id="1_0w5h4"]
+[ext_resource type="Script" uid="uid://hy2c0n28yrwm" path="res://scripts/componnets/Polygon2Collisionshape.gd" id="1_5l4w1"]
+
+[node name="brick" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 5
+gravity_scale = 0.0
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_0w5h4")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.347812, 0.56473, 0.91833, 1)
+polygon = PackedVector2Array(-64, -40, 64, -40, 64, 40, -64, 40)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-64, -40, 64, -40, 64, 40, -64, 40)
+
+[node name="P2CP" type="Node" parent="." node_paths=PackedStringArray("polygon", "collosion")]
+script = ExtResource("1_5l4w1")
+polygon = NodePath("../Polygon2D")
+collosion = NodePath("../CollisionPolygon2D")
+enable = false
+metadata/_custom_type_script = "uid://hy2c0n28yrwm"
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 36
+text = "100"
