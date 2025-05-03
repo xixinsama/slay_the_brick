@@ -20,7 +20,7 @@ script = ExtResource("1_cxlvu")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(1, 1, 0, 1)
 antialiased = true
-polygon = PackedVector2Array(50, 0, 46.9846, 17.101, 38.3022, 32.1394, 25, 43.3013, 8.68241, 49.2404, -8.68241, 49.2404, -25, 43.3013, -38.3022, 32.1394, -46.9846, 17.101, -50, 6.12303e-15, -46.9846, -17.101, -38.3022, -32.1394, -25, -43.3013, -8.68241, -49.2404, 8.68241, -49.2404, 25, -43.3013, 38.3022, -32.1394, 46.9846, -17.101)
+polygon = PackedVector2Array(50, 0, 35.3553, 35.3553, 3.06152e-15, 50, -35.3553, 35.3553, -50, 6.12303e-15, -35.3553, -35.3553, -9.18455e-15, -50, 35.3553, -35.3553)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_n1dj2")
@@ -29,7 +29,6 @@ shape = SubResource("CircleShape2D_n1dj2")
 script = ExtResource("1_7s4qf")
 collision = NodePath("../CollisionShape2D")
 polygon = NodePath("../Polygon2D")
-esp = 18
 enable = false
 metadata/_custom_type_script = "uid://dwf6uawg3in6k"
 

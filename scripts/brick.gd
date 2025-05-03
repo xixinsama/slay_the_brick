@@ -24,4 +24,11 @@ func take_hit(hurt: int = 1):
 
 func update_display():
 	label.text = str(hits_required)
-	modulate = Color(1, 1 - float(hits_required)/3, 1 - float(hits_required)/3)
+	polygon_2d.modulate = Color(1, 1 - float(hits_required)/3, 1 - float(hits_required)/3)
+
+func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if GameManage.can_mouse:
+				take_hit(GameManage.mouse_click)
+				viewport.set_input_as_handled() ## 禁止输入向下传播，防止重叠的部分被同样触发

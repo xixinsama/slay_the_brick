@@ -6,6 +6,7 @@
 [node name="brick" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 5
+input_pickable = true
 gravity_scale = 0.0
 freeze = true
 freeze_mode = 1
@@ -29,7 +30,13 @@ metadata/_custom_type_script = "uid://hy2c0n28yrwm"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -31.0
+offset_top = -25.0
+offset_right = 31.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 36
 text = "100"
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
