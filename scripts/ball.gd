@@ -20,6 +20,7 @@ signal collided(normal: Vector2)
 func _ready():
 	setup_physics_material()
 	generate_initial_velocity()
+	add_to_group("紫色小球")
 
 ## 设置小球的物理材质
 func setup_physics_material():

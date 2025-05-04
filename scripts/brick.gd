@@ -28,6 +28,7 @@ func update_display():
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
+		print("砖块收到点击事件！位置：", event.position)
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if GameManage.can_mouse:
 				take_hit(GameManage.mouse_click)

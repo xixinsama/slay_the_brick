@@ -4,72 +4,42 @@
 [ext_resource type="PackedScene" uid="uid://4bi461trk0xs" path="res://scenes/ball.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://l28w4r2njqbr" path="res://scenes/brick.tscn" id="2_sugp2"]
 
-[node name="main" type="Node2D"]
+[node name="world" type="Node2D"]
 
-[node name="world" type="Node2D" parent="."]
+[node name="wall" parent="." instance=ExtResource("1_o5qli")]
 
-[node name="wall" parent="world" instance=ExtResource("1_o5qli")]
+[node name="bricks" type="Node2D" parent="."]
 
-[node name="bricks" type="Node2D" parent="world"]
+[node name="brick" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(971, 602)
 
-[node name="brick" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1394, 573)
+[node name="brick2" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(627, 719)
 
-[node name="brick2" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1050, 690)
+[node name="brick3" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(1166, 442)
 
-[node name="brick3" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1589, 413)
+[node name="brick4" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(423, 482)
 
-[node name="brick4" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(846, 453)
+[node name="brick5" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(708, 719)
 
-[node name="brick5" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1131, 690)
+[node name="brick6" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(525, 719)
 
-[node name="brick6" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(948, 690)
+[node name="brick7" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(627, 666)
 
-[node name="brick7" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1050, 637)
+[node name="brick8" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(627, 783)
 
-[node name="brick8" parent="world/bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1050, 754)
+[node name="balls" type="Node2D" parent="."]
 
-[node name="balls" type="Node2D" parent="world"]
-
-[node name="ball" parent="world/balls" instance=ExtResource("2_0wfyh")]
-position = Vector2(1081, 303)
+[node name="ball" parent="balls" instance=ExtResource("2_0wfyh")]
+position = Vector2(739, 453)
 initial_speed = 300.0
 damage = 3
 
-[node name="ball2" parent="world/balls" instance=ExtResource("2_0wfyh")]
-position = Vector2(1330, 754)
-
-[node name="Control" type="Panel" parent="."]
-offset_bottom = 1080.0
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 0
-offset_right = 75.0
-offset_bottom = 93.0
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "关卡100"
-
-[node name="Label2" type="Label" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "分数999"
-
-[node name="Label3" type="Label" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "用时3’14"
+[node name="ball2" parent="balls" instance=ExtResource("2_0wfyh")]
+position = Vector2(907, 754)
