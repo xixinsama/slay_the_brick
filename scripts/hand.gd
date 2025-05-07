@@ -11,7 +11,7 @@ const CARD = preload("res://scenes/card_blank.tscn")
 @export var y_min: int = 20
 @export var y_max: int = -20
 
-
+## 生成卡
 func draw() -> void:
 	var new_card = CARD.instantiate()
 	#new_card.card_data = card_data
@@ -20,7 +20,7 @@ func draw() -> void:
 	new_card.init_card()
 	_update_cards()
 
-
+## 删除卡
 func discard() -> void:
 	if get_child_count() < 1:
 		return
@@ -30,7 +30,7 @@ func discard() -> void:
 	child.queue_free()
 	_update_cards()
 
-
+## 更新卡牌位置
 func _update_cards() -> void:
 	var cards := get_child_count()
 	var all_cards_size := Card.SIZE.x * cards + x_sep * (cards - 1)
@@ -56,3 +56,27 @@ func _update_cards() -> void:
 		
 		card.position = Vector2(final_x, final_y)
 		card.rotation_degrees = max_rotation_degrees * rot_multiplier
+
+func _can_drop_data(_pos, data):
+	return data is Dictionary && data["card"] is Card
+
+func _drop_data(pos, data):
+	var card = data["card"]
+	var offset = data["offset"]
+	
+	## 转换偏移量到全局坐标系
+	#var global_offset = card.get_global_transform().basis_xform(offset)
+	#
+	## 计算最终位置
+	#var target_pos = pos - global_offset
+	#
+	## 移动卡牌
+	card.original_parent.remove_child(card)
+	add_child(card)
+	#card.global_position = target_pos
+	#
+	## 重置卡牌状态
+	#card.modulate.a = 1.0
+	#card.z_index = 0
+	
+	_update_cards()

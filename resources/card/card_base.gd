@@ -11,3 +11,9 @@ extends Resource
 func apply_effect(game_manager: Node) -> void:
 	var effect = effect_script.new()
 	effect.execute(game_manager)
+
+var card_list: Dictionary = {
+	"id": 0001,
+	CardBase: "res://resources/card/card_message/0001.tres"
+	
+}

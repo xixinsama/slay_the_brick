@@ -38,3 +38,7 @@ window/stretch/mode="canvas_items"
 2d_physics/layer_1="墙wall"
 2d_physics/layer_2="砖块brick"
 2d_physics/layer_3="小球ball"
+
+[rendering]
+
+viewport/hdr_2d=true

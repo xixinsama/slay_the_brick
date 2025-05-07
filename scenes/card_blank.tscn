@@ -1,14 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://baibnptdoli0b"]
+[gd_scene load_steps=3 format=3 uid="uid://baibnptdoli0b"]
 
 [ext_resource type="Script" uid="uid://dt87163oh3fep" path="res://resources/card/card_blank.gd" id="1_aqy1u"]
-[ext_resource type="Resource" uid="uid://cdv1r6iujco0x" path="res://resources/card/card_message/0001.tres" id="2_6odjf"]
 [ext_resource type="Texture2D" uid="uid://6raij44wklc2" path="res://resources/pic/frame.png" id="2_54ssu"]
 
 [node name="CardBlank" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_left = -67.0
+offset_top = -216.0
+offset_right = -67.0
+offset_bottom = -216.0
+pivot_offset = Vector2(67, 216)
 script = ExtResource("1_aqy1u")
-card_data = ExtResource("2_6odjf")
 
 [node name="Frame" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(135, 216)
@@ -54,3 +57,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 text = "卡牌效果"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
