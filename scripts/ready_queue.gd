@@ -1,8 +1,8 @@
 extends ColorRect
+class_name ReadyQueue
 
-var card_eneity: Array[Card]
-var card_list: Array[CardBase]
-
+var card_list: Array[CardBase] = []  # 原始卡牌数据
+var card_entities: Array[Control] = []   # 当前显示的卡牌实例
 
 func _can_drop_data(_pos, data):
 	return data is Dictionary && data["card"] is Card
@@ -13,7 +13,7 @@ func _drop_data(pos, data):
 
 	card.original_parent.remove_child(card)
 	add_child(card)
-	card_eneity.append(card)
+	card_entities.append(card)
 	card_list.append(card.card_data)
 	# 重置卡牌状态
 	card.modulate.a = 1.0
@@ -23,6 +23,6 @@ func _drop_data(pos, data):
 	_place_card()
 
 func _place_card():
-	for i in card_eneity.size():
-		card_eneity[i].global_position = position + Vector2(Card.SIZE.x * i, 0)
-		print(card_eneity[i].global_position)
+	for i in card_entities.size():
+		card_entities[i].global_position = position + Vector2(Card.SIZE.x * i, 0)
+		print(card_entities[i].global_position)

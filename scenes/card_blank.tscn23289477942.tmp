@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://baibnptdoli0b"]
+[gd_scene load_steps=7 format=3 uid="uid://baibnptdoli0b"]
 
 [ext_resource type="Script" uid="uid://dt87163oh3fep" path="res://resources/card/card_blank.gd" id="1_aqy1u"]
 [ext_resource type="Texture2D" uid="uid://6raij44wklc2" path="res://resources/pic/frame.png" id="2_54ssu"]
-[ext_resource type="Script" uid="uid://c0s02vpxkjixi" path="res://scripts/componnets/shake_componnet.gd" id="3_6odjf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54ssu"]
 bg_color = Color(1, 1, 1, 1)
@@ -85,11 +84,6 @@ offset_bottom = 216.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_sy14f")
-
-[node name="ShakeComponent" type="Node" parent="." node_paths=PackedStringArray("node")]
-script = ExtResource("3_6odjf")
-node = NodePath("..")
-metadata/_custom_type_script = "uid://c0s02vpxkjixi"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -4,10 +4,20 @@ extends Control
 @onready var energy: Label = $MarginContainer/VBoxContainer/HBoxContainer/Energy
 @onready var card_name: Label = $MarginContainer/VBoxContainer/HBoxContainer/CardName
 @onready var card_face: TextureRect = $MarginContainer/VBoxContainer/CardFace
-@onready var effect: Label = $MarginContainer/VBoxContainer/Effect
+@onready var effect: RichTextLabel = $MarginContainer/VBoxContainer/Effect
+@onready var shake_component: ShakeComponent = $ShakeComponent
 
 const SIZE: Vector2 = Vector2(135, 216) ## 由hand脚本使用
 var card_data: CardBase
+
+var velocity: Vector2 = Vector2.ZERO
+var damping: float = 0.35
+var stiffness: int = 500
+enum cardState{following, dragging}
+var preview: Control
+
+@export var cardCurrentState = cardState.following
+@export var follow_target: Control
 
 # 拖拽控制变量
 var original_position: Vector2
@@ -27,6 +37,29 @@ var ROTATE: float = 0
 var tween_times: int = 0
 signal reset_tween ## 重置补间动画，修复中断错误
 
+func _process(delta: float) -> void:
+	match cardCurrentState:
+		cardState.dragging:
+			var target_position = get_global_mouse_position() - drag_offset
+			if is_draggable:
+				global_position = global_position.lerp(target_position, 0.4)
+			else:
+				shake_component.tween_shake()
+				_on_button_button_up()
+		cardState.following:
+			if follow_target != null:
+				var target_position := Vector2.ZERO
+				if follow_target == Hand:
+					pass
+				else:
+					target_position = follow_target.global_position
+				var displacement = target_position - global_position
+				var force = displacement * stiffness
+				velocity += force * delta
+				velocity *= (1.0 - damping)
+				global_position += velocity * delta
+
+
 func init_card() -> bool:
 	if card_data:
 		energy.text = str(card_data.energy)
@@ -36,40 +69,34 @@ func init_card() -> bool:
 		return true
 	else: return false
 
-func _get_drag_data(pos):
-	if not is_draggable:
-		return null
-	# 计算鼠标在卡牌内的相对偏移（基于卡牌坐标系）
-	drag_offset = pos
-	# 保存原始状态
-	original_position = global_position
-	original_parent = get_parent()
-	# 创建预览
-	var preview = _create_preview()
-	set_drag_preview(preview[0])
-	# 半透明效果
-	modulate.a = 0.5
-	z_index = 1
-	# 返回包含卡牌和偏移量的字典
-	return {
-		"card": self,
-		"offset": drag_offset
-	}
-
-func _create_preview():
-	var preview = self.duplicate()
-	# 创建偏移控制容器
-	var offset_container = Control.new()
-	offset_container.add_child(preview)
-	preview.position = -drag_offset  # 偏移预览位置
-	return [offset_container, preview.card_data]
+#func _get_drag_data(pos):
+	#if not is_draggable:
+		#return null
+	#print("dragging")
+	## 计算鼠标在卡牌内的相对偏移（基于卡牌坐标系）
+	#drag_offset = pos
+	## 保存原始状态
+	#original_position = global_position
+	#original_parent = get_parent()
+	## 创建预览
+	#var preview = self.duplicate()
+	#preview.position = original_position
+	#set_drag_preview(preview)
+	## 半透明效果
+	#modulate.a = 0.5
+	#z_index = 5
+	## 返回包含卡牌和偏移量的字典
+	#return {
+		#"card": self,
+		#"info": card_data
+	#}
 
 func _on_mouse_entered() -> void:
 	# 取消之前的动画
 	if hover_tween:
 		hover_tween.kill()
 	ROTATE = rotation_degrees
-#	pos_now = global_position
+	#pos_now = global_position
 	tween_times += 1
 	if tween_times == 50:
 		reset_tween.emit()
@@ -83,7 +110,6 @@ func _on_mouse_entered() -> void:
 	
 	# 提升层级避免被遮挡
 	z_index = 1
-
 func _on_mouse_exited() -> void:
 	# 取消之前的动画
 	if unhover_tween:
@@ -99,3 +125,30 @@ func _on_mouse_exited() -> void:
 		unhover_tween.parallel().tween_property(self, "modulate", Color.WHITE, ANIM_DURATION)
 	# 恢复层级
 	z_index = 0
+
+var current_connector: ArrowConnector = null
+func _on_button_button_down() -> void:
+	# 保存原始状态
+	original_position = position
+	original_parent = get_parent()
+	# 生成预览复制
+	preview = self.duplicate()
+	preview.global_position = original_position
+	preview.modulate.a = 0.5
+	original_parent.add_child(preview)
+	# 拖拽 
+	cardCurrentState = cardState.dragging
+	drag_offset = get_global_mouse_position() - global_position
+	# 创建连线
+	await get_tree().process_frame
+	var current_connector = ArrowConnector.new()
+	current_connector.target_node = self
+	current_connector.start_offset = Vector2(SIZE.x / 2, 0)
+	current_connector.end_offset = Vector2(SIZE.x / 2, SIZE.y)
+	preview.add_child(current_connector)
+func _on_button_button_up() -> void:
+	cardCurrentState = cardState.following
+	#if current_connector:
+		#current_connector.queue_free()
+		#current_connector = null
+	if preview: preview.queue_free()

@@ -3,6 +3,9 @@ extends ColorRect
 
 const CARD = preload("res://scenes/card_blank.tscn")
 
+var card_list: Array[CardBase] = []  # 原始卡牌数据
+var card_entities: Array[Control] = []   # 当前显示的卡牌实例
+
 @export var hand_curve: Curve
 @export var rotation_curve: Curve
 
@@ -32,7 +35,7 @@ func discard() -> void:
 
 ## 更新卡牌位置
 func _update_cards() -> void:
-	var cards := get_child_count()
+	var cards: int = get_child_count()
 	var all_cards_size := Card.SIZE.x * cards + x_sep * (cards - 1)
 	var final_x_sep = x_sep
 	

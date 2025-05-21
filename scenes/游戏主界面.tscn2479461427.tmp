@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dc0de6uy47d7h"]
+[gd_scene load_steps=9 format=3 uid="uid://dc0de6uy47d7h"]
 
 [ext_resource type="PackedScene" uid="uid://dmjmjwiypp8j0" path="res://scenes/main.tscn" id="1_e40k4"]
 [ext_resource type="Script" uid="uid://bjre8ocnycv6r" path="res://scripts/游戏主界面.gd" id="1_n5jov"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://3qxuwf1tbyj0" path="res://scripts/ready_queue.gd" id="6_0ityr"]
 [ext_resource type="Script" uid="uid://dghhbu35of8fp" path="res://scripts/stack_of_ cards.gd" id="7_mpivr"]
 [ext_resource type="PackedScene" uid="uid://baibnptdoli0b" path="res://scenes/card_blank.tscn" id="8_y04dg"]
-[ext_resource type="Script" uid="uid://bmnnl67tl6g31" path="res://scripts/show_card_UI.gd" id="9_jy5ho"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_n5jov")
@@ -64,25 +63,15 @@ theme_override_font_sizes/font_size = 64
 text = "出牌次数12"
 
 [node name="牌效果信息" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(329, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "增益
-"
-autowrap_mode = 3
+text = "增益"
 
-[node name="准备队列" type="ColorRect" parent="UI"]
-custom_minimum_size = Vector2(980, 220)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -219.0
-offset_right = 761.0
-offset_bottom = 220.0
-grow_horizontal = 2
-mouse_filter = 1
-color = Color(1, 1, 1, 0.176471)
-script = ExtResource("6_0ityr")
+[node name="卡牌展示界面" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="手牌区" type="ColorRect" parent="UI"]
 custom_minimum_size = Vector2(980, 200)
@@ -104,8 +93,17 @@ hand_curve = ExtResource("3_p26lg")
 rotation_curve = ExtResource("4_44idb")
 max_rotation_degrees = 5.0
 
-[node name="CardBlank" parent="UI/手牌区" node_paths=PackedStringArray("follow_target") instance=ExtResource("8_y04dg")]
-follow_target = NodePath("..")
+[node name="准备队列" type="ColorRect" parent="UI"]
+custom_minimum_size = Vector2(980, 220)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -219.0
+offset_right = 761.0
+offset_bottom = 220.0
+grow_horizontal = 2
+color = Color(1, 1, 1, 0.176471)
+script = ExtResource("6_0ityr")
 
 [node name="生成卡牌" type="Button" parent="UI"]
 offset_left = 461.0
@@ -123,77 +121,23 @@ offset_bottom = 871.0
 theme_override_font_sizes/font_size = 64
 text = "扔牌"
 
-[node name="抽牌堆" type="Button" parent="UI"]
+[node name="抽牌堆" type="Button" parent="UI" node_paths=PackedStringArray("card_display_ui")]
 offset_left = 597.0
 offset_top = 1036.0
 offset_right = 653.0
 offset_bottom = 1067.0
 text = "抽牌堆"
 script = ExtResource("7_mpivr")
+card_display_ui = NodePath("../卡牌展示界面")
 card_prefab = ExtResource("8_y04dg")
 
-[node name="卡牌展示界面" type="CanvasLayer" parent="."]
-layer = 3
-visible = false
-script = ExtResource("9_jy5ho")
-columns = 5
-
-[node name="PanelContainer" type="PanelContainer" parent="卡牌展示界面"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="卡牌展示界面/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_right = 200
-
-[node name="VBoxContainer" type="VBoxContainer" parent="卡牌展示界面/PanelContainer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 1
-text = "牌堆显示"
-
-[node name="CloseButton" type="Button" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "X"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="SortOptionButton" type="OptionButton" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-selected = 0
-item_count = 4
-popup/item_0/text = "稀有度排序"
-popup/item_0/id = 0
-popup/item_1/text = "获得时间排序"
-popup/item_1/id = 1
-popup/item_2/text = "能量排序"
-popup/item_2/id = 2
-popup/item_3/text = "类型排序"
-popup/item_3/id = 3
-
-[node name="ScrollContainer" type="ScrollContainer" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1420, 900)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="CardContainer" type="GridContainer" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 30
-columns = 5
+[node name="弃牌堆" type="Button" parent="UI"]
+offset_left = 1758.0
+offset_top = 1036.0
+offset_right = 1814.0
+offset_bottom = 1067.0
+text = "弃牌堆"
+script = ExtResource("7_mpivr")
 
 [connection signal="pressed" from="UI/生成卡牌" to="." method="_on_生成卡牌_pressed"]
 [connection signal="pressed" from="UI/清除卡牌" to="." method="_on_清除卡牌_pressed"]
