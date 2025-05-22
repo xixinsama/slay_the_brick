@@ -15,10 +15,9 @@ signal closed
 @onready var card_container: GridContainer = $PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/CardContainer
 
 # 配置参数
-@export var card_prefab: PackedScene
-@export var columns: int = 6 : set = set_columns
-@export var horizontal_spacing: int = 20
-@export var vertical_spacing: int = 30
+@export var columns: int = 8 : set = set_columns
+@export var horizontal_spacing: int = 180
+@export var vertical_spacing: int = 240
 
 var current_cards: Array[CardBase] = []
 var card_instances: Array[Card] = []
@@ -46,20 +45,17 @@ func init_display(cards: Array[CardBase], title: String) -> void:
 # 生成卡牌实例
 func _generate_cards() -> void:
 	for card_data in current_cards:
-		var card_instance: Control = card_prefab.instantiate()
-		card_container.add_child(card_instance)
-		
-		# 初始化卡牌显示并禁用交互
-		if card_instance.has_method("setup"):
-			card_instance.setup(card_data, false)
-		
-		card_instances.append(card_instance)
-		target_positions.append(card_instance.position)
+		var card: Card = GameManage.get_card_instance()
+		card_instances.append(card)
+		card_container.add_child(card)
+		card.card_data = card_data
+		card.is_draggable = false
+		card.init_card()
 
 # 清空卡牌
 func _clear_cards() -> void:
 	for card in card_instances:
-		card.queue_free()
+		GameManage.recycle_card(card)
 	card_instances.clear()
 	target_positions.clear()
 
@@ -69,19 +65,22 @@ func _apply_sort(sort_id: int) -> void:
 		0: _sort_by_energy()
 		1: _sort_by_name()
 		2: _sort_by_type()
-	
+		3: _sort_by_rare()
+
 	_update_card_order()
 	_arrange_with_animation()
 
 func _sort_by_energy() -> void:
-	current_cards.sort_custom(func(a, b): return a.energy < b.energy)
+	current_cards.sort_custom(func(a, b): return a.base_cost < b.base_cost)
 
 func _sort_by_name() -> void:
 	current_cards.sort_custom(func(a, b): return a.card_name.naturalnocasecmp_to(b.card_name) < 0)
 
 func _sort_by_type() -> void:
-	# 假设卡牌数据有card_type属性
 	current_cards.sort_custom(func(a, b): return a.card_type < b.card_type)
+
+func _sort_by_rare() -> void:
+	current_cards.sort_custom(func(a, b): return a.card_rarity < b.card_rarity)
 
 # 更新实例顺序
 func _update_card_order() -> void:
@@ -128,27 +127,42 @@ func _play_enter_animation() -> void:
 			.set_delay(i * 0.02)
 
 func _arrange_with_animation() -> void:
+	if card_instances.is_empty():
+		return
 	target_positions = _calculate_layout()
-	var tween = create_tween().set_parallel(true)
-	
+	var tween: Tween = create_tween().set_parallel(true)
 	for i in card_instances.size():
 		var card = card_instances[i]
 		var target_pos = target_positions[i]
-		
-		tween.tween_property(card, "position", target_pos, 0.3)\
-			.set_ease(Tween.EASE_IN_OUT)\
-			.set_trans(Tween.TRANS_CUBIC)
+		# 添加位置有效性检查
+		if target_pos != card.position:
+			tween.tween_property(card, "position", target_pos, 0.3)\
+				.set_ease(Tween.EASE_IN_OUT)\
+				.set_trans(Tween.TRANS_CUBIC)
+	# 空动画处理
+	#if tween.get_total_animation_time() == 0:
+		#tween.kill()
+	#target_positions = _calculate_layout()
+	#var tween = create_tween().set_parallel(true)
+	#
+	#for i in card_instances.size():
+		#var card = card_instances[i]
+		#var target_pos = target_positions[i]
+		#
+		#tween.tween_property(card, "position", target_pos, 0.3)\
+			#.set_ease(Tween.EASE_IN_OUT)\
+			#.set_trans(Tween.TRANS_CUBIC)
 
 #=== 信号处理 ===#
 func _on_sort_option_selected(index: int) -> void:
 	_apply_sort(index)
 
 func _on_close_button_pressed() -> void:
-	var exit_tween = create_tween().set_parallel(true)
-	exit_tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.2)
-	exit_tween.tween_property(self, "scale", Vector2(0.9, 0.9), 0.2)
+	var exit_tween = create_tween()
+	exit_tween.tween_property(self, "scale", Vector2(0.1, 0.1), 0.4).set_ease(Tween.EASE_IN)
 	exit_tween.finished.connect(_final_close)
 
 func _final_close() -> void:
 	closed.emit()
+	_clear_cards()
 	visible = false

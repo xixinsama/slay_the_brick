@@ -13,8 +13,6 @@
 [node name="main" type="Node2D"]
 script = ExtResource("1_n5jov")
 
-[node name="阶段管理员" type="Node" parent="."]
-
 [node name="world" parent="." instance=ExtResource("1_e40k4")]
 position = Vector2(420, 0)
 
@@ -104,9 +102,6 @@ hand_curve = ExtResource("3_p26lg")
 rotation_curve = ExtResource("4_44idb")
 max_rotation_degrees = 5.0
 
-[node name="CardBlank" parent="UI/手牌区" node_paths=PackedStringArray("follow_target") instance=ExtResource("8_y04dg")]
-follow_target = NodePath("..")
-
 [node name="生成卡牌" type="Button" parent="UI"]
 offset_left = 461.0
 offset_top = 679.0
@@ -133,10 +128,8 @@ script = ExtResource("7_mpivr")
 card_prefab = ExtResource("8_y04dg")
 
 [node name="卡牌展示界面" type="CanvasLayer" parent="."]
-layer = 3
-visible = false
+layer = 5
 script = ExtResource("9_jy5ho")
-columns = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="卡牌展示界面"]
 anchors_preset = 15
@@ -173,14 +166,14 @@ layout_mode = 2
 layout_mode = 2
 selected = 0
 item_count = 4
-popup/item_0/text = "稀有度排序"
-popup/item_0/id = 0
-popup/item_1/text = "获得时间排序"
+popup/item_0/text = "能量排序"
+popup/item_0/id = 2
+popup/item_1/text = "名称排序"
 popup/item_1/id = 1
-popup/item_2/text = "能量排序"
-popup/item_2/id = 2
-popup/item_3/text = "类型排序"
-popup/item_3/id = 3
+popup/item_2/text = "类型排序"
+popup/item_2/id = 3
+popup/item_3/text = "稀有度排序"
+popup/item_3/id = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="卡牌展示界面/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(1420, 900)
@@ -191,9 +184,9 @@ size_flags_horizontal = 4
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 30
-columns = 5
+theme_override_constants/h_separation = 160
+theme_override_constants/v_separation = 240
+columns = 8
 
 [connection signal="pressed" from="UI/生成卡牌" to="." method="_on_生成卡牌_pressed"]
 [connection signal="pressed" from="UI/清除卡牌" to="." method="_on_清除卡牌_pressed"]

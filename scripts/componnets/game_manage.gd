@@ -31,6 +31,20 @@ var purpleball_damage: int = 8
 var purpleball_speed: float = 200
 var purpleball_radius: float = 25
 
+## 卡牌池
+## 统统使用该对象池里的实例
+const card_prefab = preload("res://scenes/card_blank.tscn")
+var card_pool: Array[Card] = []
+func get_card_instance() -> Card:
+	if card_pool.is_empty():
+		return card_prefab.instantiate()
+	else:
+		return card_pool.pop_back()
+func recycle_card(card: Control):
+	card.hide()
+	card_pool.append(card)
+
+
 ## 获取分组下的所有小球
 func get_balls_in_group(name: String) -> Array:
 	return get_tree().get_nodes_in_group(name)

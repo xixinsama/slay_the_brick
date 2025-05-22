@@ -24,7 +24,6 @@ Button/styles/normal = SubResource("StyleBoxFlat_sy14f")
 Button/styles/pressed = SubResource("StyleBoxFlat_6odjf")
 
 [node name="CardBlank" type="Control"]
-z_as_relative = false
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_aqy1u")
@@ -60,10 +59,13 @@ layout_mode = 2
 text = "5"
 
 [node name="CardName" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 text = "卡牌名"
 horizontal_alignment = 1
+
+[node name="Rarity" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "稀有度"
 
 [node name="CardFace" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(112, 82)
@@ -91,7 +93,7 @@ script = ExtResource("3_6odjf")
 node = NodePath("..")
 metadata/_custom_type_script = "uid://c0s02vpxkjixi"
 
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
 [connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="mouse_entered" from="Button" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_mouse_exited"]

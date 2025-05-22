@@ -1,6 +1,6 @@
 extends Node
 class_name cardInfos
-var file_path = "res://assets/cardsInfo.CSV"
+var file_path = "res://resources/card/csv2card/cardInfos.csv"
 var infosDic: Dictionary
 
 func _init()-> void:

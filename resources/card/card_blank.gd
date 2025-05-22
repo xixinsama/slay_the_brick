@@ -4,26 +4,30 @@ extends Control
 @onready var energy: Label = $MarginContainer/VBoxContainer/HBoxContainer/Energy
 @onready var card_name: Label = $MarginContainer/VBoxContainer/HBoxContainer/CardName
 @onready var card_face: TextureRect = $MarginContainer/VBoxContainer/CardFace
+@onready var rarity: Label = $MarginContainer/VBoxContainer/HBoxContainer/Rarity
 @onready var effect: RichTextLabel = $MarginContainer/VBoxContainer/Effect
 @onready var shake_component: ShakeComponent = $ShakeComponent
 
 const SIZE: Vector2 = Vector2(135, 216) ## 由hand脚本使用
 var card_data: CardBase
+var is_upgrade: bool = false:
+	set(value):
+		init_card()
 
+##  拖拽动画相关
 var velocity: Vector2 = Vector2.ZERO
 var damping: float = 0.35
 var stiffness: int = 500
 enum cardState{following, dragging}
 var preview: Control
-
-@export var cardCurrentState = cardState.following
-@export var follow_target: Control
-
-# 拖拽控制变量
 var original_position: Vector2
 var original_parent: Node
 var is_draggable: bool = true  # 是否允许拖拽
 var drag_offset: Vector2  # 拖拽偏移量
+
+@export var cardCurrentState = cardState.following
+@export var follow_target: Control
+@export var follow_target_position: Vector2 = -Vector2.ONE
 
 # 动画相关变量
 var hover_tween: Tween
@@ -42,54 +46,51 @@ func _process(delta: float) -> void:
 		cardState.dragging:
 			var target_position = get_global_mouse_position() - drag_offset
 			if is_draggable:
-				global_position = global_position.lerp(target_position, 0.4)
+				global_position = target_position
 			else:
 				shake_component.tween_shake()
 				_on_button_button_up()
 		cardState.following:
 			if follow_target != null:
-				var target_position := Vector2.ZERO
-				if follow_target == Hand:
-					pass
+				if not is_instance_valid(follow_target):
+					return
+				var target_position: Vector2
+				if follow_target_position != -Vector2.ONE:
+					target_position = follow_target_position
 				else:
 					target_position = follow_target.global_position
 				var displacement = target_position - global_position
+				# 添加距离阈值防止震荡
+				if displacement.length() < 2.0:
+					global_position = target_position
+					return
+				
 				var force = displacement * stiffness
 				velocity += force * delta
 				velocity *= (1.0 - damping)
 				global_position += velocity * delta
 
-
+## 初始化卡牌，需要先给card_data赋值
 func init_card() -> bool:
 	if card_data:
-		energy.text = str(card_data.energy)
 		card_name.text = card_data.card_name
+		match card_data.card_rarity:
+			card_data.rarity.normal:
+				rarity.text = "normal"
+			card_data.rarity.uncommon:
+				rarity.text = "uncommon"
+			card_data.rarity.rare:
+				rarity.text = "rare"
 		card_face.texture = card_data.card_face
-		effect.text = card_data.effect_description
+		# 升级描述
+		if not is_upgrade:
+			energy.text = str(card_data.base_cost)
+			effect.text = card_data.effect_description
+		else:
+			energy.text = str(card_data.upgrade_cost)
+			effect.text = card_data.upgrade_effect_description
 		return true
 	else: return false
-
-#func _get_drag_data(pos):
-	#if not is_draggable:
-		#return null
-	#print("dragging")
-	## 计算鼠标在卡牌内的相对偏移（基于卡牌坐标系）
-	#drag_offset = pos
-	## 保存原始状态
-	#original_position = global_position
-	#original_parent = get_parent()
-	## 创建预览
-	#var preview = self.duplicate()
-	#preview.position = original_position
-	#set_drag_preview(preview)
-	## 半透明效果
-	#modulate.a = 0.5
-	#z_index = 5
-	## 返回包含卡牌和偏移量的字典
-	#return {
-		#"card": self,
-		#"info": card_data
-	#}
 
 func _on_mouse_entered() -> void:
 	# 取消之前的动画
@@ -129,13 +130,14 @@ func _on_mouse_exited() -> void:
 var current_connector: ArrowConnector = null
 func _on_button_button_down() -> void:
 	# 保存原始状态
-	original_position = position
+	original_position = global_position
 	original_parent = get_parent()
 	# 生成预览复制
 	preview = self.duplicate()
+	original_parent.add_child(preview)
 	preview.global_position = original_position
 	preview.modulate.a = 0.5
-	original_parent.add_child(preview)
+	preview.set_process(false)
 	# 拖拽 
 	cardCurrentState = cardState.dragging
 	drag_offset = get_global_mouse_position() - global_position
