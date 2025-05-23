@@ -27,7 +27,8 @@ func _ready() -> void:
 	# 连接信号
 	close_button.pressed.connect(_on_close_button_pressed)
 	sort_option_button.item_selected.connect(_on_sort_option_selected)
-	
+	#visibility_changed.connect(_on_visibility_changed)
+	opened.connect(_open_caed_show)
 	# 配置容器
 	card_container.add_theme_constant_override("h_separation", horizontal_spacing)
 	card_container.add_theme_constant_override("v_separation", vertical_spacing)
@@ -51,6 +52,8 @@ func _generate_cards() -> void:
 		card.card_data = card_data
 		card.is_draggable = false
 		card.init_card()
+		
+		card.set_process(false)
 
 # 清空卡牌
 func _clear_cards() -> void:
@@ -139,19 +142,6 @@ func _arrange_with_animation() -> void:
 			tween.tween_property(card, "position", target_pos, 0.3)\
 				.set_ease(Tween.EASE_IN_OUT)\
 				.set_trans(Tween.TRANS_CUBIC)
-	# 空动画处理
-	#if tween.get_total_animation_time() == 0:
-		#tween.kill()
-	#target_positions = _calculate_layout()
-	#var tween = create_tween().set_parallel(true)
-	#
-	#for i in card_instances.size():
-		#var card = card_instances[i]
-		#var target_pos = target_positions[i]
-		#
-		#tween.tween_property(card, "position", target_pos, 0.3)\
-			#.set_ease(Tween.EASE_IN_OUT)\
-			#.set_trans(Tween.TRANS_CUBIC)
 
 #=== 信号处理 ===#
 func _on_sort_option_selected(index: int) -> void:
@@ -162,7 +152,14 @@ func _on_close_button_pressed() -> void:
 	exit_tween.tween_property(self, "scale", Vector2(0.1, 0.1), 0.4).set_ease(Tween.EASE_IN)
 	exit_tween.finished.connect(_final_close)
 
+func _open_caed_show() -> void:
+	var open_tween = create_tween()
+	open_tween.tween_property(self, "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
+
 func _final_close() -> void:
-	closed.emit()
 	_clear_cards()
 	visible = false
+
+func _on_visibility_changed() -> void:
+	if visible == false: closed.emit()
+	else: opened.emit()

@@ -34,6 +34,7 @@ window/stretch/aspect="expand"
 "蓝色小球"="等级三"
 "紫色小球"="等级四"
 "金色小球"="等级五，金色传说"
+card_dropzone="可拖拽和摆放卡牌的地方"
 
 [layer_names]
 
