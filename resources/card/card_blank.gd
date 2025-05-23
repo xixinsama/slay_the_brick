@@ -14,7 +14,7 @@ signal Hand2Readqueue
 signal Readqueue2Hand
 
 const SIZE: Vector2 = Vector2(135, 216) ## 由hand脚本使用
-var card_data: CardBase
+var card_data: CardBase: set = _set_card_data ## 赋值时会自动重新更新卡牌
 var is_upgrade: bool = false:
 	set(value):
 		init_card()
@@ -78,6 +78,10 @@ func _process(delta: float) -> void:
 				velocity *= (1.0 - damping)
 				global_position += velocity * delta
 
+func _set_card_data(new_data: CardBase) -> void:
+	card_data = new_data
+	init_card() 
+ 
 ## 初始化卡牌，需要先给card_data赋值
 func init_card() -> bool:
 	if card_data:
@@ -98,7 +102,15 @@ func init_card() -> bool:
 			energy.text = str(card_data.upgrade_cost)
 			effect.text = card_data.upgrade_effect_description
 		return true
-	else: return false
+	else:
+		## 从卡牌池里提取出来时
+		## 重置属性
+		## 正常开启拖拽和帧处理
+		visible = true
+		is_draggable = true
+		card_name.text = "noname"
+		set_process(true)
+		return false
 
 func _on_mouse_entered() -> void:
 	# 取消之前的动画

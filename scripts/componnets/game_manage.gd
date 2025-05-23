@@ -39,9 +39,13 @@ func get_card_instance() -> Card:
 	if card_pool.is_empty():
 		return card_prefab.instantiate()
 	else:
+		#var card_in_pool: Card = card_pool.pop_back()
+		#card_in_pool.init_card()
 		return card_pool.pop_back()
-func recycle_card(card: Control):
+func recycle_card(card: Card):
+	card.get_parent().remove_child(card) ## 将自己从父节点上取下来
 	card.hide()
+	card.set("card_data", null) ## 这里已经初始化了
 	card_pool.append(card)
 
 

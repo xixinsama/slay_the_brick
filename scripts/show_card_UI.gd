@@ -52,7 +52,7 @@ func _generate_cards() -> void:
 		card.card_data = card_data
 		card.is_draggable = false
 		card.init_card()
-		
+		## 停止卡牌帧处理
 		card.set_process(false)
 
 # 清空卡牌

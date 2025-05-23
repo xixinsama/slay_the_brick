@@ -29,15 +29,16 @@ func delete_card(old_card: Card):
 ## 生成卡
 func draw() -> void:
 	var card: Card = GameManage.get_card_instance()
-	self.add_child(card)
-	# 随机找一个数据赋值
-	card.card_data = ImportCard.all_cardbase[randi_range(0,ImportCard.all_cardbase.size()-1)]
-	card.init_card()
-	card_instances.append(card)
+	if card:
+		self.add_child(card)
+		# 随机找一个数据赋值
+		card.card_data = ImportCard.all_cardbase[randi_range(0,ImportCard.all_cardbase.size()-1)]
+		card_instances.append(card)
+		
+		# 摆放
+		_update_cards()
+	else: print("未获得卡牌")
 	
-	# 摆放
-	_update_cards()
-
 ## 删除卡
 func discard() -> void:
 	if get_child_count() < 1:
