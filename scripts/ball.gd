@@ -1,10 +1,12 @@
 extends RigidBody2D
-class_name PinballBall
+class_name PinBall
 
 ## 初始速度（像素/秒）
-@export var initial_speed: float = 700
+@export var initial_speed: float = 50
 ## 最大允许速度（防止速度无限增加）
 @export var max_speed: float = 999
+@export var r: float = 5.0
+@export var max_r: float = 150.0
 ## 碰撞伤害
 @export var damage: int = 1
 ## 是否启用速度维持（防止物理衰减）
@@ -12,14 +14,16 @@ class_name PinballBall
 ## 是否启用方向过滤（防止纯垂直/水平方向）
 @export var enable_direction_filter: bool = true
 
+@onready var cs_2p: CS2P = $CS2P
 @onready var label: Label = $Label
+@onready var line_2d: Line2D = $Line2D
+@onready var polygon_2d: Polygon2D = $Polygon2D
 
 # 碰撞信号（用于触发特效/音效）
 signal collided(normal: Vector2)
 
 func _ready():
 	setup_physics_material()
-	generate_initial_velocity()
 
 ## 设置小球的物理材质
 func setup_physics_material():
@@ -27,6 +31,39 @@ func setup_physics_material():
 	mat.bounce = 1.0
 	mat.rough = 0.0
 	physics_material_override = mat
+
+## 初始化小球的数值
+## 小球开始移动
+func initialize(flag: int = 0) -> void:
+	match flag:
+		0:
+			add_to_group("红色小球")
+			polygon_2d.color = Color.RED
+			damage = GameManage.redball_damage
+			initial_speed = GameManage.redball_speed
+			r = GameManage.redball_radius
+		1:
+			add_to_group("黄色小球")
+			polygon_2d.color = Color.YELLOW
+			damage = GameManage.yellowball_damage
+			initial_speed = GameManage.yellowball_speed
+			r = GameManage.yellowball_radius
+		2:
+			add_to_group("蓝色小球")
+			polygon_2d.color = Color.SKY_BLUE
+			damage = GameManage.blueball_damage
+			initial_speed = GameManage.blueball_speed
+			r = GameManage.blueball_radius
+		3:
+			add_to_group("紫色小球")
+			polygon_2d.color = Color.MEDIUM_PURPLE
+			damage = GameManage.purpleball_damage
+			initial_speed = GameManage.purpleball_speed
+			r = GameManage.purpleball_radius
+	## 设置半径
+	cs_2p.setup_radius(r)
+	## 设置初始速度
+	generate_initial_velocity()
 
 var current_vel: Vector2 ## 记录当前速度
 ## 设置小球的初始速度
@@ -91,6 +128,9 @@ func _process_collisions(state: PhysicsDirectBodyState2D):
 
 func show_message() -> void:
 	label.text = str(linear_velocity)
+	line_2d.remove_point(1)
+	line_2d.add_point(linear_velocity)
+	line_2d.queue_redraw()
 
 ## 重置小球
 func reset_ball(pos: Vector2):

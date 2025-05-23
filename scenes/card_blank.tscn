@@ -1,0 +1,101 @@
+[gd_scene load_steps=8 format=3 uid="uid://baibnptdoli0b"]
+
+[ext_resource type="Script" uid="uid://dt87163oh3fep" path="res://resources/card/card_blank.gd" id="1_aqy1u"]
+[ext_resource type="Texture2D" uid="uid://6raij44wklc2" path="res://resources/pic/frame.png" id="2_54ssu"]
+[ext_resource type="Script" uid="uid://c0s02vpxkjixi" path="res://scripts/componnets/shake_componnet.gd" id="3_6odjf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54ssu"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sy14f"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6odjf"]
+bg_color = Color(0.709804, 0.760784, 0.760784, 0.141176)
+
+[sub_resource type="Theme" id="Theme_sy14f"]
+Button/styles/hover = SubResource("StyleBoxFlat_54ssu")
+Button/styles/normal = SubResource("StyleBoxFlat_sy14f")
+Button/styles/pressed = SubResource("StyleBoxFlat_6odjf")
+
+[node name="CardBlank" type="Control"]
+z_index = 6
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_aqy1u")
+
+[node name="Frame" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(135, 216)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_54ssu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 135.0
+offset_bottom = 216.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Energy" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "5"
+
+[node name="CardName" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "卡牌名"
+horizontal_alignment = 1
+
+[node name="Rarity" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "稀有度"
+
+[node name="CardFace" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(112, 82)
+layout_mode = 2
+
+[node name="Effect" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果"
+fit_content = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 135.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_sy14f")
+
+[node name="ShakeComponent" type="Node" parent="." node_paths=PackedStringArray("node")]
+script = ExtResource("3_6odjf")
+node = NodePath("..")
+metadata/_custom_type_script = "uid://c0s02vpxkjixi"
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="mouse_entered" from="Button" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_mouse_exited"]

@@ -1,0 +1,143 @@
+[gd_scene load_steps=9 format=3 uid="uid://dc0de6uy47d7h"]
+
+[ext_resource type="PackedScene" uid="uid://dmjmjwiypp8j0" path="res://scenes/main.tscn" id="1_e40k4"]
+[ext_resource type="Script" uid="uid://bjre8ocnycv6r" path="res://scripts/游戏主界面.gd" id="1_n5jov"]
+[ext_resource type="Script" uid="uid://dnbet5sjbi5ty" path="res://scripts/hand.gd" id="2_mfxhu"]
+[ext_resource type="Curve" uid="uid://cjdq18wesjr7w" path="res://resources/hand_curve.tres" id="3_p26lg"]
+[ext_resource type="Curve" uid="uid://b7mx84xri38xi" path="res://resources/rotation.tres" id="4_44idb"]
+[ext_resource type="Script" uid="uid://3qxuwf1tbyj0" path="res://scripts/ready_queue.gd" id="6_0ityr"]
+[ext_resource type="Script" uid="uid://dghhbu35of8fp" path="res://scripts/stack_of_ cards.gd" id="7_mpivr"]
+[ext_resource type="PackedScene" uid="uid://baibnptdoli0b" path="res://scenes/card_blank.tscn" id="8_y04dg"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_n5jov")
+
+[node name="阶段管理员" type="Node" parent="."]
+
+[node name="world" parent="." instance=ExtResource("1_e40k4")]
+position = Vector2(420, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="leftPanel" type="Panel" parent="UI"]
+custom_minimum_size = Vector2(420, 1080)
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/leftPanel"]
+layout_mode = 0
+offset_right = 75.0
+offset_bottom = 93.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/leftPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="当前关卡" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "关卡100"
+
+[node name="积分" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "分数999"
+
+[node name="倒计时" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "用时3’14"
+
+[node name="能量" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "能量6"
+
+[node name="出牌次数" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "出牌次数12"
+
+[node name="牌效果信息" type="Label" parent="UI/leftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "增益"
+
+[node name="卡牌展示界面" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="手牌区" type="ColorRect" parent="UI"]
+custom_minimum_size = Vector2(980, 200)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -219.0
+offset_top = -203.0
+offset_right = 761.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+color = Color(1, 1, 1, 0.176471)
+script = ExtResource("2_mfxhu")
+hand_curve = ExtResource("3_p26lg")
+rotation_curve = ExtResource("4_44idb")
+max_rotation_degrees = 5.0
+
+[node name="准备队列" type="ColorRect" parent="UI"]
+custom_minimum_size = Vector2(980, 220)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -219.0
+offset_right = 761.0
+offset_bottom = 220.0
+grow_horizontal = 2
+color = Color(1, 1, 1, 0.176471)
+script = ExtResource("6_0ityr")
+
+[node name="生成卡牌" type="Button" parent="UI"]
+offset_left = 461.0
+offset_top = 679.0
+offset_right = 789.0
+offset_bottom = 775.0
+theme_override_font_sizes/font_size = 64
+text = "抽牌！！！"
+
+[node name="清除卡牌" type="Button" parent="UI"]
+offset_left = 461.0
+offset_top = 775.0
+offset_right = 597.0
+offset_bottom = 871.0
+theme_override_font_sizes/font_size = 64
+text = "扔牌"
+
+[node name="抽牌堆" type="Button" parent="UI" node_paths=PackedStringArray("card_display_ui")]
+offset_left = 597.0
+offset_top = 1036.0
+offset_right = 653.0
+offset_bottom = 1067.0
+text = "抽牌堆"
+script = ExtResource("7_mpivr")
+card_display_ui = NodePath("../卡牌展示界面")
+card_prefab = ExtResource("8_y04dg")
+
+[node name="弃牌堆" type="Button" parent="UI"]
+offset_left = 1758.0
+offset_top = 1036.0
+offset_right = 1814.0
+offset_bottom = 1067.0
+text = "弃牌堆"
+script = ExtResource("7_mpivr")
+
+[connection signal="pressed" from="UI/生成卡牌" to="." method="_on_生成卡牌_pressed"]
+[connection signal="pressed" from="UI/清除卡牌" to="." method="_on_清除卡牌_pressed"]

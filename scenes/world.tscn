@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmjmjwiypp8j0"]
+
+[ext_resource type="PackedScene" uid="uid://bsb7u55kwgp5q" path="res://scenes/wall.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://b34ud7yta5ner" path="res://scripts/world.gd" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://l28w4r2njqbr" path="res://scenes/brick.tscn" id="2_sugp2"]
+
+[node name="world" type="Node2D"]
+script = ExtResource("1_sugp2")
+
+[node name="wall" parent="." instance=ExtResource("1_o5qli")]
+
+[node name="bricks" type="Node2D" parent="."]
+
+[node name="brick" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(971, 602)
+
+[node name="brick2" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(627, 719)
+
+[node name="brick3" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(1166, 442)
+
+[node name="brick4" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(321, 229)
+
+[node name="brick5" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(708, 719)
+
+[node name="brick6" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(525, 719)
+
+[node name="brick7" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(627, 666)
+
+[node name="brick8" parent="bricks" instance=ExtResource("2_sugp2")]
+position = Vector2(627, 783)
+
+[node name="balls" type="Node2D" parent="."]
+
+[node name="spawn_here" type="Marker2D" parent="."]
+position = Vector2(680, 460)
+gizmo_extents = 50.0

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BallDamageAdd" load_steps=2 format=3 uid="uid://dxkk4o7cnoutr"]
+
+[ext_resource type="Script" uid="uid://cxtu1aorjbf0f" path="res://resources/card/effects/加法增加伤害.gd" id="1_iamyd"]
+
+[resource]
+script = ExtResource("1_iamyd")
+metadata/_custom_type_script = "uid://cxtu1aorjbf0f"

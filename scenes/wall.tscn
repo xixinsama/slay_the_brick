@@ -6,14 +6,15 @@
 collision_mask = 4
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(420, 1.14441e-05, 1920, 1.30204e-05, 1920, 1080, 600, 1080, 600, 960, 1800, 960, 1800, 120, 600, 120, 600, 1080, 420, 1080)
+polygon = PackedVector2Array(0, 0, 1500, 0, 1500, 1080, 180, 1080, 169.003, 989.769, 1380, 960, 1380, 120, 60, 60, 180, 1080, 0, 1080)
 uv = PackedVector2Array(480, 120, 1980, 120, 1860, 1380, 720, 1320, 780, 900, 1680, 1080, 1800, 360, 660, 360, 720, 1320, 420, 1320)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(420, 1.14441e-05, 1920, 1.30204e-05, 1920, 1080, 600, 1080, 600, 960, 1800, 960, 1800, 120, 600, 120, 600, 1080, 420, 1080)
+polygon = PackedVector2Array(0, 0, 1500, 0, 1500, 1080, 180, 1080, 169.003, 989.769, 1380, 960, 1380, 120, 60, 60, 180, 1080, 0, 1080)
 
 [node name="P2CP" type="Node" parent="." node_paths=PackedStringArray("polygon", "collosion")]
 script = ExtResource("1_wykyb")
 polygon = NodePath("../Polygon2D")
 collosion = NodePath("../CollisionPolygon2D")
+map = Array[PackedVector2Array]([PackedVector2Array()])
 metadata/_custom_type_script = "uid://hy2c0n28yrwm"

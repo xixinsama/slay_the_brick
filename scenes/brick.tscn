@@ -23,7 +23,6 @@ polygon = PackedVector2Array(-64, -40, 64, -40, 64, 40, -64, 40)
 script = ExtResource("1_5l4w1")
 polygon = NodePath("../Polygon2D")
 collosion = NodePath("../CollisionPolygon2D")
-enable = false
 metadata/_custom_type_script = "uid://hy2c0n28yrwm"
 
 [node name="Label" type="Label" parent="."]
