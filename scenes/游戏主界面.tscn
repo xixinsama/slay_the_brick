@@ -68,20 +68,107 @@ text = "增益
 "
 autowrap_mode = 3
 
-[node name="手牌区" type="ColorRect" parent="UI" groups=["card_dropzone"]]
+[node name="card_play" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="执行卡牌" type="Button" parent="UI/card_play"]
+layout_mode = 0
+offset_left = 1522.0
+offset_top = 240.0
+offset_right = 1722.0
+offset_bottom = 336.0
+theme_override_font_sizes/font_size = 64
+text = "出牌？"
+
+[node name="生成卡牌" type="Button" parent="UI/card_play"]
+layout_mode = 0
+offset_left = 461.0
+offset_top = 679.0
+offset_right = 789.0
+offset_bottom = 775.0
+theme_override_font_sizes/font_size = 64
+text = "抽牌！！！"
+
+[node name="清除卡牌" type="Button" parent="UI/card_play"]
+layout_mode = 0
+offset_left = 461.0
+offset_top = 775.0
+offset_right = 597.0
+offset_bottom = 871.0
+theme_override_font_sizes/font_size = 64
+text = "扔牌"
+
+[node name="抽牌堆" type="Button" parent="UI/card_play" node_paths=PackedStringArray("card_display_ui")]
+layout_mode = 0
+offset_left = 503.0
+offset_top = 978.0
+offset_right = 559.0
+offset_bottom = 1009.0
+text = "抽牌堆"
+script = ExtResource("7_mpivr")
+card_display_ui = NodePath("../../../卡牌展示界面")
+
+[node name="弃牌堆" type="Button" parent="UI/card_play" node_paths=PackedStringArray("card_display_ui")]
+layout_mode = 0
+offset_left = 1777.0
+offset_top = 871.0
+offset_right = 1833.0
+offset_bottom = 902.0
+text = "弃牌堆"
+script = ExtResource("7_mpivr")
+pile_type = 1
+card_display_ui = NodePath("../../../卡牌展示界面")
+
+[node name="消耗牌堆" type="Button" parent="UI/card_play" node_paths=PackedStringArray("card_display_ui")]
+layout_mode = 0
+offset_left = 1777.0
+offset_top = 926.0
+offset_right = 1849.0
+offset_bottom = 957.0
+text = "消耗牌堆"
+script = ExtResource("7_mpivr")
+pile_type = 2
+card_display_ui = NodePath("../../../卡牌展示界面")
+
+[node name="消失牌堆" type="Button" parent="UI/card_play" node_paths=PackedStringArray("card_display_ui")]
+layout_mode = 0
+offset_left = 1777.0
+offset_top = 978.0
+offset_right = 1849.0
+offset_bottom = 1009.0
+text = "消失牌堆"
+script = ExtResource("7_mpivr")
+pile_type = 3
+test_mode = true
+card_display_ui = NodePath("../../../卡牌展示界面")
+
+[node name="结束打牌" type="Button" parent="UI/card_play"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 957.0
+offset_right = 328.0
+offset_bottom = 1053.0
+theme_override_font_sizes/font_size = 64
+text = "回合结束"
+
+[node name="手牌区" type="ColorRect" parent="UI/card_play" groups=["card_dropzone"]]
 unique_name_in_owner = true
 z_index = 5
 z_as_relative = false
-custom_minimum_size = Vector2(980, 200)
+custom_minimum_size = Vector2(1080, 200)
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -219.0
-offset_top = -203.0
-offset_right = 761.0
-offset_bottom = -3.0
+offset_left = 619.0
+offset_top = 837.0
+offset_right = 1701.0
+offset_bottom = 1037.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 1
@@ -91,81 +178,27 @@ hand_curve = ExtResource("3_p26lg")
 rotation_curve = ExtResource("4_44idb")
 max_rotation_degrees = 5.0
 
-[node name="准备队列" type="ColorRect" parent="UI" groups=["card_dropzone"]]
+[node name="准备队列" type="ColorRect" parent="UI/card_play" groups=["card_dropzone"]]
 unique_name_in_owner = true
 z_index = 5
 z_as_relative = false
-custom_minimum_size = Vector2(980, 220)
+custom_minimum_size = Vector2(1080, 220)
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -219.0
+offset_left = 619.0
 offset_top = 20.0
-offset_right = 761.0
+offset_right = 1701.0
 offset_bottom = 240.0
 grow_horizontal = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.176471)
 script = ExtResource("6_0ityr")
 
-[node name="生成卡牌" type="Button" parent="UI"]
-offset_left = 461.0
-offset_top = 679.0
-offset_right = 789.0
-offset_bottom = 775.0
-theme_override_font_sizes/font_size = 64
-text = "抽牌！！！"
-
-[node name="清除卡牌" type="Button" parent="UI"]
-offset_left = 461.0
-offset_top = 775.0
-offset_right = 597.0
-offset_bottom = 871.0
-theme_override_font_sizes/font_size = 64
-text = "扔牌"
-
-[node name="抽牌堆" type="Button" parent="UI" node_paths=PackedStringArray("card_display_ui")]
-offset_left = 597.0
-offset_top = 1036.0
-offset_right = 653.0
-offset_bottom = 1067.0
-text = "抽牌堆"
-script = ExtResource("7_mpivr")
-card_display_ui = NodePath("../../卡牌展示界面")
-
-[node name="弃牌堆" type="Button" parent="UI" node_paths=PackedStringArray("card_display_ui")]
-offset_left = 1777.0
-offset_top = 871.0
-offset_right = 1833.0
-offset_bottom = 902.0
-text = "弃牌堆"
-script = ExtResource("7_mpivr")
-pile_type = 1
-card_display_ui = NodePath("../../卡牌展示界面")
-
-[node name="消耗牌堆" type="Button" parent="UI" node_paths=PackedStringArray("card_display_ui")]
-offset_left = 1777.0
-offset_top = 926.0
-offset_right = 1833.0
-offset_bottom = 957.0
-text = "消耗牌堆"
-script = ExtResource("7_mpivr")
-pile_type = 2
-card_display_ui = NodePath("../../卡牌展示界面")
-
-[node name="消失牌堆" type="Button" parent="UI" node_paths=PackedStringArray("card_display_ui")]
-offset_left = 1777.0
-offset_top = 978.0
-offset_right = 1833.0
-offset_bottom = 1009.0
-text = "消失牌堆"
-script = ExtResource("7_mpivr")
-pile_type = 3
-test_mode = true
-card_display_ui = NodePath("../../卡牌展示界面")
-
 [node name="卡牌展示界面" type="CanvasLayer" parent="."]
 layer = 5
+visible = false
 script = ExtResource("9_jy5ho")
 
 [node name="PanelContainer" type="PanelContainer" parent="卡牌展示界面"]
@@ -225,6 +258,17 @@ theme_override_constants/h_separation = 160
 theme_override_constants/v_separation = 240
 columns = 8
 
-[connection signal="pressed" from="UI/生成卡牌" to="." method="_on_生成卡牌_pressed"]
-[connection signal="pressed" from="UI/清除卡牌" to="." method="_on_清除卡牌_pressed"]
+[node name="RESET" type="Button" parent="."]
+offset_left = 1721.0
+offset_top = 1049.0
+offset_right = 1921.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 16
+text = "测试用按钮，重启整个游戏"
+
+[connection signal="pressed" from="UI/card_play/执行卡牌" to="." method="_on_执行卡牌_pressed"]
+[connection signal="pressed" from="UI/card_play/生成卡牌" to="." method="_on_生成卡牌_pressed"]
+[connection signal="pressed" from="UI/card_play/清除卡牌" to="." method="_on_清除卡牌_pressed"]
+[connection signal="pressed" from="UI/card_play/结束打牌" to="." method="_on_结束打牌_pressed"]
 [connection signal="visibility_changed" from="卡牌展示界面" to="卡牌展示界面" method="_on_visibility_changed"]
+[connection signal="pressed" from="RESET" to="." method="_on_reset_pressed"]

@@ -1,9 +1,14 @@
 extends Node2D
+class_name MainWorld
 
 ## 挂载节点的节点
+@onready var wall: StaticBody2D = $wall
 @onready var bricks_here: Node2D = $bricks
 @onready var balls_here: Node2D = $balls
 @onready var spawn_here: Marker2D = $spawn_here
+@onready var color_rect: ColorRect = $ColorRect
+@onready var round_countdown: Timer = $round_countdown
+@onready var label: Label = $Label
 
 var scene: PackedScene
 const BALL = preload("res://scenes/ball.tscn")
@@ -12,11 +17,27 @@ const BRICK = preload("res://scenes/brick.tscn")
 var balls: Array[PinBall] = []
 var num2balls: Array[int] = []
 
+signal ball_phase_end
+
 ## 测试用
 func _ready() -> void:
-	num2balls =  Array(range(4), TYPE_INT, "", null) 
-	num_sqawn_ball()
+	#num2balls =  Array(range(4), TYPE_INT, "", null) 
+	#num_sqawn_ball()
+	set_process(false)
+	round_countdown.timeout.connect(_phase_end)
+	pass
 
+func _process(delta: float) -> void:
+	label.text = "倒计时："+str(round_countdown.time_left)
+
+func begin_play_ball() -> void:
+	num2balls = GameManage.ball_nums.duplicate()
+	num_sqawn_ball()
+	round_countdown.wait_time = GameManage.level_time_now
+	round_countdown.start()
+	color_rect.hide()
+	set_process(true)
+	
 func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene, flag: int = 0) -> Node:
 	assert(scene is PackedScene, "Error: The scene export was never set on this spawner component.")
 	var instance = scene.instantiate()
@@ -53,6 +74,7 @@ func clear_balls() -> void:
 	for b in Balls:
 		b.queue_free()
 	balls.clear()
+	num2balls.clear()
 ## 清空砖块
 func clear_bricks() -> void:
 	var Bricks = bricks_here.get_children()
@@ -62,3 +84,10 @@ func clear_bricks() -> void:
 func clear_all() -> void:
 	clear_balls()
 	clear_bricks()
+
+func _phase_end() -> void:
+	print("打砖块阶段结束")
+	set_process(false)
+	ball_phase_end.emit()
+	clear_all()
+	

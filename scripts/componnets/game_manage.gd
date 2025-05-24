@@ -6,13 +6,21 @@ var gold_points: int = 0 ## 游戏点数
 var lucky: float = 100.0 ## 幸运值
 var energy: int = 6 ## 能量
 var cardplay_num: int = 12 ## 出牌次数
+var value_logs: Dictionary = {}
+
+## 关卡类
+var level_now: int = 0
+var level_time: Array[float] = [20, 20, 30, 25, 25, 35, 30, 30, 40] ## 每关基础时间
+var layer_now: int = 0 ## 第几层
+var level_time_now: float ## 实际关卡时间
 
 ## 鼠标类
 var can_mouse: bool = true ## 能否鼠标点方块
-var mouse_click: int = 10 ## 鼠标点方块的伤害
+var mouse_click: int = 1 ## 鼠标点方块的伤害
 var mouse2points: float = 1.0 ## 鼠标点方块的积分转换效率
 
 ## 球类
+var ball_nums: Array[int] = [] ## 各个球数量信息。[1,3,2,4,1]分别代表 红 蓝 黄 紫 红 球各一个
 var ball2points: float = 1.0 ## 球撞方块的积分转换效率
 ## 红球
 var redball_damage: int = 1

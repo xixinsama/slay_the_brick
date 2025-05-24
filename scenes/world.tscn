@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmjmjwiypp8j0"]
+[gd_scene load_steps=6 format=3 uid="uid://dmjmjwiypp8j0"]
 
 [ext_resource type="PackedScene" uid="uid://bsb7u55kwgp5q" path="res://scenes/wall.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://b34ud7yta5ner" path="res://scripts/world.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://l28w4r2njqbr" path="res://scenes/brick.tscn" id="2_sugp2"]
+[ext_resource type="Shader" uid="uid://bewtejr0qy2an" path="res://scenes/high_light.gdshader" id="4_k0juu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_71j4m"]
+shader = ExtResource("4_k0juu")
+shader_parameter/Line_Smoothness = 0.1
+shader_parameter/Line_Width = 0.09
+shader_parameter/Brightness = 0.3
+shader_parameter/Rotation_deg = 30.0
+shader_parameter/Distortion = 2.0
+shader_parameter/Speed = 0.4
+shader_parameter/Position = 0.0
+shader_parameter/Position_Min = 0.25
+shader_parameter/Position_Max = 0.5
+shader_parameter/Alpha = 1.0
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_sugp2")
@@ -40,3 +54,22 @@ position = Vector2(627, 783)
 [node name="spawn_here" type="Marker2D" parent="."]
 position = Vector2(680, 460)
 gizmo_extents = 50.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_71j4m")
+custom_minimum_size = Vector2(1500, 1080)
+offset_right = 1500.0
+offset_bottom = 1080.0
+mouse_default_cursor_shape = 8
+color = Color(0.75098, 0.247533, 0.315889, 1)
+
+[node name="round_countdown" type="Timer" parent="."]
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+offset_right = 99.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "倒计时：NaN"

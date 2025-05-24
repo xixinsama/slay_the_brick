@@ -124,7 +124,7 @@ func _process_collisions(state: PhysicsDirectBodyState2D):
 		
 		# 处理砖块伤害
 		if collider and collider.has_method("take_hit"):
-			collider.take_hit(damage)
+			collider.take_hit(damage, 0, self)
 
 func show_message() -> void:
 	label.text = str(linear_velocity)

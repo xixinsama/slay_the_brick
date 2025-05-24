@@ -15,11 +15,25 @@ func _ready():
 		polygon_2d.polygon = shape
 		p_2cp.re_shape()
 
-func take_hit(hurt: int = 1):
+## 出伤函数
+## 0表示球，1表示鼠标
+func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
+	var actual_damage: int
+	if hurt >= hits_required: 
+		actual_damage = hits_required
+	else: 
+		actual_damage = hurt
 	hits_required -= hurt
 	if hits_required <= 0:
 		queue_free()
-		get_tree().call_group("game", "brick_destroyed")
+		#get_tree().call_group("game", "brick_destroyed")
+	# 计算分数，并登记
+	if flag == 0: ## 球出伤
+		GameManage.gold_points += GameManage.ball2points * actual_damage
+		GameManage.value_logs[self.name+str(Time.get_ticks_msec())] = {"points": GameManage.ball2points * actual_damage, "from": node}
+	elif flag == 1:  ## 鼠标出伤
+		GameManage.gold_points += GameManage.mouse2points * actual_damage
+		GameManage.value_logs[self.name+str(Time.get_ticks_msec())] = {"points": GameManage.mouse2points * actual_damage, "from": "mouse"}
 	update_display()
 
 func update_display():
@@ -31,5 +45,5 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 		print("砖块收到点击事件！位置：", event.position)
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if GameManage.can_mouse:
-				take_hit(GameManage.mouse_click)
+				take_hit(GameManage.mouse_click, 1)
 				viewport.set_input_as_handled() ## 禁止输入向下传播，防止重叠的部分被同样触发
