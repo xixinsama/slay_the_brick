@@ -1,6 +1,7 @@
 extends RigidBody2D
 
-@export var hits_required := 99
+@export var max_health: int = 999
+@export var hits_required: int = 99
 @export var shape: PackedVector2Array = PackedVector2Array()
 
 @onready var polygon_2d: Polygon2D = $Polygon2D
@@ -23,22 +24,32 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 		actual_damage = hits_required
 	else: 
 		actual_damage = hurt
-	hits_required -= hurt
+	hits_required -= actual_damage
 	if hits_required <= 0:
 		queue_free()
 		#get_tree().call_group("game", "brick_destroyed")
 	# 计算分数，并登记
 	if flag == 0: ## 球出伤
 		GameManage.gold_points += GameManage.ball2points * actual_damage
-		GameManage.value_logs[self.name+str(Time.get_ticks_msec())] = {"points": GameManage.ball2points * actual_damage, "from": node}
+		GameManage.value_logs.append({
+			"name": self.name,
+			"time": Time.get_ticks_msec(),
+			"points": GameManage.ball2points * actual_damage,
+			"from": node.name
+			})
 	elif flag == 1:  ## 鼠标出伤
 		GameManage.gold_points += GameManage.mouse2points * actual_damage
-		GameManage.value_logs[self.name+str(Time.get_ticks_msec())] = {"points": GameManage.mouse2points * actual_damage, "from": "mouse"}
+		GameManage.value_logs.append({
+			"name": self.name,
+			"time": Time.get_ticks_msec(),
+			"points": GameManage.mouse2points * actual_damage,
+			"from": "mouse"
+			})
 	update_display()
-
+	
 func update_display():
 	label.text = str(hits_required)
-	polygon_2d.modulate = Color(1, 1 - float(hits_required)/3, 1 - float(hits_required)/3)
+	polygon_2d.modulate = Color(0.8 - float(hits_required)/ 99, 0.5, 1 - float(hits_required)/ 99)
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:

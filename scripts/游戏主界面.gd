@@ -13,11 +13,11 @@ extends Node2D
 ## 图书馆
 @onready var 卡牌展示界面: CardDisplayUI = $卡牌展示界面
 
-
 signal card_phase_end
 
 func _ready() -> void:
 	卡牌展示界面.init_display(ImportCard.all_cardbase, "图书馆")
+	GameManage.init_round()
 	#Card.Hand2Readqueue.connect(func(s):)
 
 func _process(delta: float) -> void:
@@ -30,7 +30,7 @@ func _on_清除卡牌_pressed() -> void:
 	手牌区.discard()
 
 func _on_执行卡牌_pressed() -> void:
-	pass # Replace with function body.
+	GameManage.apply_card_effect()
 
 func _on_结束打牌_pressed() -> void:
 	card_phase_end.emit()

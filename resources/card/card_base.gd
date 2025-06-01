@@ -24,15 +24,13 @@ enum rarity{
 }
 @export var card_rarity: rarity
 
-
-####
-@export var effects: Array[EffectBase]  ## 存储多个效果，在编辑器里设置
-@export var context: Array[Dictionary] ## 多个效果的上下文，在编辑器里设置
-
-func play(context: Dictionary) -> void:
-	for effect in effects:
-		effect.context = context  # 注入上下文
-		effect.apply()
-
-func _init() -> void:
-	pass
+#@export var effects: Array[EffectBase]  ## 存储多个效果，在编辑器里设置
+#@export var context: Array[Dictionary] ## 多个效果的上下文，在编辑器里设置
+#
+#func play(context: Dictionary) -> void:
+	#for effect in effects:
+		#effect.context = context  # 注入上下文
+		#effect.apply()
+#
+#func _init() -> void:
+	#pass

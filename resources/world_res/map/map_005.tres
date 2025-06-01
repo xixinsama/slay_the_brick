@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PolyResource" load_steps=2 format=3 uid="uid://bqo5v7obg3mcc"]
+
+[ext_resource type="Script" uid="uid://brut6friga66e" path="res://scripts/poly_resource.gd" id="1_hshr5"]
+
+[resource]
+script = ExtResource("1_hshr5")
+self_type = 2
+name = "map005"
+self_polygon = PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 1154, 998, 1244, 249, 306, 207, 241, 853, 869, 793, 1034, 502, 632, 450, 512, 512, 915, 570, 797, 718, 358, 773, 401, 317, 1148, 346, 1049, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)

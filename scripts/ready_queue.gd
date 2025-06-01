@@ -36,6 +36,17 @@ func add_card(new_card: Card):
 	#current_cards.append(new_card.card_data)
 	_update_cards()
 
+## 通过卡牌信息添加一张牌
+func add_card_by_base(new_base: CardBase):
+	var card: Card = GameManage.get_card_instance()
+	if card:
+		self.add_child(card)
+		card.card_data = new_base
+		card_instances.append(card)
+		# 摆放
+		_update_cards()
+	else: print("添加卡牌失败")
+
 ## 删除卡牌
 func delete_card(old_card: Card):
 	var index: int = card_instances.find(old_card)

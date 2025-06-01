@@ -2,7 +2,7 @@ extends Node2D
 class_name MainWorld
 
 ## 挂载节点的节点
-@onready var wall: StaticBody2D = $wall
+@onready var wall: WallMap = $wall
 @onready var bricks_here: Node2D = $bricks
 @onready var balls_here: Node2D = $balls
 @onready var spawn_here: Marker2D = $spawn_here

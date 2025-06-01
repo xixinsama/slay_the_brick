@@ -17,6 +17,17 @@ func add_card(new_card: Card):
 	card_instances.append(new_card)
 	_update_cards()
 
+## 通过卡牌信息添加一张牌
+func add_card_by_base(new_base: CardBase):
+	var card: Card = GameManage.get_card_instance()
+	if card:
+		self.add_child(card)
+		card.card_data = new_base
+		card_instances.append(card)
+		# 摆放
+		_update_cards()
+	else: print("添加卡牌失败")
+
 ## 删除一张牌
 func delete_card(old_card: Card):
 	var index: int = card_instances.find(old_card)
@@ -27,12 +38,15 @@ func delete_card(old_card: Card):
 	self.remove_child(old_card)
 
 ## 生成卡
+var card_range: Array = [1, 2, 3, 4, 5, 7, 8, 12] ## 测试已完成的牌
+
 func draw() -> void:
 	var card: Card = GameManage.get_card_instance()
 	if card:
 		self.add_child(card)
 		# 随机找一个数据赋值
-		card.card_data = ImportCard.all_cardbase[randi_range(0,ImportCard.all_cardbase.size()-1)]
+		#card.card_data = ImportCard.all_cardbase[randi_range(0, ImportCard.all_cardbase.size()-1)]
+		card.card_data = ImportCard.all_cardbase[card_range[randi_range(0, card_range.size()-1)] - 1]
 		card_instances.append(card)
 		
 		# 摆放

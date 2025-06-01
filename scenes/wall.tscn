@@ -1,20 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsb7u55kwgp5q"]
+[gd_scene load_steps=10 format=3 uid="uid://bsb7u55kwgp5q"]
 
+[ext_resource type="Script" uid="uid://ctdkqamdlki02" path="res://scripts/wall_map.gd" id="1_2ktk7"]
 [ext_resource type="Script" uid="uid://hy2c0n28yrwm" path="res://scripts/componnets/Polygon2Collisionshape.gd" id="1_wykyb"]
+[ext_resource type="Resource" uid="uid://dss1u8o65cua4" path="res://resources/world_res/map/map_001.tres" id="2_e00m8"]
+[ext_resource type="Script" uid="uid://brut6friga66e" path="res://scripts/poly_resource.gd" id="2_pmnwi"]
+[ext_resource type="Resource" uid="uid://klbl6slnbfv6" path="res://resources/world_res/map/map_002.tres" id="4_sbeqh"]
+[ext_resource type="Resource" uid="uid://bhexpgsg8pmvf" path="res://resources/world_res/map/map_003.tres" id="5_t7ec6"]
+[ext_resource type="Resource" uid="uid://8v16fcep4wth" path="res://resources/world_res/map/map_004.tres" id="6_t0o0o"]
+[ext_resource type="Resource" uid="uid://bqo5v7obg3mcc" path="res://resources/world_res/map/map_005.tres" id="7_38k74"]
+[ext_resource type="Resource" uid="uid://bcffr26xq3utw" path="res://resources/world_res/map/map_006.tres" id="8_d7yut"]
 
 [node name="wall" type="StaticBody2D"]
 collision_mask = 4
+script = ExtResource("1_2ktk7")
+maps = Array[ExtResource("2_pmnwi")]([ExtResource("2_e00m8"), ExtResource("4_sbeqh"), ExtResource("5_t7ec6"), ExtResource("6_t0o0o"), ExtResource("7_38k74"), ExtResource("8_d7yut")])
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(0, 0, 1500, 0, 1500, 1080, 180, 1080, 169.003, 989.769, 1380, 960, 1380, 120, 60, 60, 180, 1080, 0, 1080)
-uv = PackedVector2Array(480, 120, 1980, 120, 1860, 1380, 720, 1320, 780, 900, 1680, 1080, 1800, 360, 660, 360, 720, 1320, 420, 1320)
+polygon = PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(0, 0, 1500, 0, 1500, 1080, 180, 1080, 169.003, 989.769, 1380, 960, 1380, 120, 60, 60, 180, 1080, 0, 1080)
+polygon = PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
 
-[node name="P2CP" type="Node" parent="." node_paths=PackedStringArray("polygon", "collosion")]
+[node name="P2CP" type="Node" parent="." node_paths=PackedStringArray("polygon", "collision")]
 script = ExtResource("1_wykyb")
 polygon = NodePath("../Polygon2D")
-collosion = NodePath("../CollisionPolygon2D")
-map = Array[PackedVector2Array]([PackedVector2Array()])
+collision = NodePath("../CollisionPolygon2D")
+map = Array[PackedVector2Array]([PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)])
 metadata/_custom_type_script = "uid://hy2c0n28yrwm"
