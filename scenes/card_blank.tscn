@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://baibnptdoli0b"]
+[gd_scene load_steps=9 format=3 uid="uid://baibnptdoli0b"]
 
 [ext_resource type="Script" uid="uid://dt87163oh3fep" path="res://resources/card/card_blank.gd" id="1_aqy1u"]
 [ext_resource type="Texture2D" uid="uid://6raij44wklc2" path="res://resources/pic/frame.png" id="2_54ssu"]
 [ext_resource type="Script" uid="uid://c0s02vpxkjixi" path="res://scripts/componnets/shake_componnet.gd" id="3_6odjf"]
+[ext_resource type="Theme" uid="uid://ih3wy4fpftfi" path="res://resources/flat_theme.tres" id="3_sy14f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54ssu"]
 bg_color = Color(1, 1, 1, 1)
@@ -28,7 +29,15 @@ z_index = 6
 z_as_relative = false
 layout_mode = 3
 anchors_preset = 0
+pivot_offset = Vector2(67.5, 108)
 script = ExtResource("1_aqy1u")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(135, 216)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Frame" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(135, 216)
@@ -58,26 +67,24 @@ layout_mode = 2
 [node name="Energy" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
+theme = ExtResource("3_sy14f")
 text = "5"
 
 [node name="CardName" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(65, 0)
 layout_mode = 2
+theme = ExtResource("3_sy14f")
 text = "卡牌名"
 horizontal_alignment = 1
 
-[node name="Rarity" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CardType" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "稀有度"
+theme = ExtResource("3_sy14f")
+text = "类型"
 
 [node name="CardFace" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(112, 82)
 layout_mode = 2
-
-[node name="Effect" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果卡牌效果"
-fit_content = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
@@ -88,7 +95,22 @@ offset_right = 135.0
 offset_bottom = 216.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_default_cursor_shape = 6
 theme = SubResource("Theme_sy14f")
+
+[node name="Effect" type="RichTextLabel" parent="Button"]
+layout_mode = 2
+offset_left = 4.0
+offset_top = 117.0
+offset_right = 131.0
+offset_bottom = 212.0
+size_flags_vertical = 3
+mouse_filter = 1
+theme = ExtResource("3_sy14f")
+bbcode_enabled = true
+text = "卡牌效果：[u][color=yellow][url=gy]固有[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=kzxcs]可执行次数x[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]
+"
+fit_content = true
 
 [node name="ShakeComponent" type="Node" parent="." node_paths=PackedStringArray("node")]
 script = ExtResource("3_6odjf")
@@ -99,3 +121,7 @@ metadata/_custom_type_script = "uid://c0s02vpxkjixi"
 [connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
 [connection signal="mouse_entered" from="Button" to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Button" to="." method="_on_mouse_exited"]
+[connection signal="meta_hover_ended" from="Button/Effect" to="." method="_on_effect_meta_hover_ended"]
+[connection signal="meta_hover_started" from="Button/Effect" to="." method="_on_effect_meta_hover_started"]
+[connection signal="mouse_entered" from="Button/Effect" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Button/Effect" to="." method="_on_mouse_exited"]

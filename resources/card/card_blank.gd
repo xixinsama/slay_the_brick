@@ -3,10 +3,12 @@
 class_name Card
 extends Control
 
+const HINT = preload("res://scenes/hint.tscn")
+
 @onready var energy: Label = $MarginContainer/VBoxContainer/HBoxContainer/Energy
 @onready var card_name: Label = $MarginContainer/VBoxContainer/HBoxContainer/CardName
 @onready var card_face: TextureRect = $MarginContainer/VBoxContainer/CardFace
-@onready var rarity: Label = $MarginContainer/VBoxContainer/HBoxContainer/Rarity
+@onready var card_type: Label = $MarginContainer/VBoxContainer/HBoxContainer/CardType
 @onready var effect: RichTextLabel = $MarginContainer/VBoxContainer/Effect
 @onready var shake_component: ShakeComponent = $ShakeComponent
 
@@ -37,7 +39,7 @@ var preview: Control
 # 动画相关变量
 var hover_tween: Tween
 var unhover_tween: Tween
-const HOVER_SCALE := Vector2(1.05, 1.05)
+const HOVER_SCALE := Vector2(1.8, 1.8)
 const HOVER_COLOR := Color(1.1, 1.1, 1.1)
 const ANIM_DURATION := 0.1
 var ROTATE: float = 0
@@ -86,13 +88,17 @@ func _set_card_data(new_data: CardBase) -> void:
 func init_card() -> bool:
 	if card_data:
 		card_name.text = card_data.card_name
-		match card_data.card_rarity:
-			card_data.rarity.normal:
-				rarity.text = "normal"
-			card_data.rarity.uncommon:
-				rarity.text = "uncommon"
-			card_data.rarity.rare:
-				rarity.text = "rare"
+		match card_data.card_type:
+			card_data.card_base_type.skill:
+				card_type.text = "技能"
+			card_data.card_base_type.item:
+				card_type.text = "道具"
+			card_data.card_base_type.ability:
+				card_type.text = "能力"
+			card_data.card_base_type.active:
+				card_type.text = "主动"
+			card_data.card_base_type.counter:
+				card_type.text = "反制"
 		card_face.texture = card_data.card_face
 		# 升级描述
 		if not is_upgrade:
@@ -143,7 +149,6 @@ func _on_mouse_exited() -> void:
 	# 恢复层级
 	z_index -= 1
 
-var current_connector: ArrowConnector = null
 func _on_button_button_down() -> void:
 	if is_draggable:
 		# 保存原始状态
@@ -193,3 +198,27 @@ func _on_button_button_up() -> void:
 		#current_connector.queue_free()
 		#current_connector = null
 	if preview: preview.queue_free()
+
+
+func _on_effect_meta_hover_started(meta: Variant) -> void:
+	# 生成提示
+	if get_parent().get_node_or_null(str(meta)) == null:
+		var hint: Hint = HINT.instantiate()
+		hint.name = str(meta)
+		get_parent().add_child(hint)
+		hint.init_hint(str(meta))
+		if global_position.x < get_viewport_rect().size.x / 2:
+			hint.global_position = global_position + Vector2(280.0, 100)
+		else:
+			hint.global_position = global_position + Vector2(-350, 100)
+		var current_connector = ArrowConnector.new()
+		current_connector.target_node = self
+		#current_connector.start_offset = 
+		current_connector.end_offset = get_global_mouse_position() - global_position
+		hint.add_child(current_connector)
+	else:
+		print("已存在")
+
+func _on_effect_meta_hover_ended(meta: Variant) -> void:
+	if get_parent().get_node_or_null(str(meta)) != null:
+		get_parent().get_node(str(meta)).queue_free()

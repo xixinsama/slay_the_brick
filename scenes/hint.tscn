@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://h503onjjd4p4"]
+
+[ext_resource type="Script" uid="uid://cjs0iq7x3mu8" path="res://scripts/hint.gd" id="1_grpcu"]
+[ext_resource type="Theme" uid="uid://ih3wy4fpftfi" path="res://resources/flat_theme.tres" id="1_lsscw"]
+
+[node name="hint" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1920.0
+offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_grpcu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+color = Color(0.890887, 0.792128, 1, 1)
+
+[node name="Effect" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 94.0
+size_flags_vertical = 3
+theme = ExtResource("1_lsscw")
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
+theme_override_font_sizes/mono_font_size = 32
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+text = "卡牌效果描述
+说人话
+"
+fit_content = true
