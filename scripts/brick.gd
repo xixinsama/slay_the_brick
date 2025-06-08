@@ -30,7 +30,7 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 	# 添加飘字
 	var ft := FLOATING_TEXT.instantiate()
 	add_child(ft)
-	ft.global_position = global_position + Vector2.UP * 30 + Vector2(randi_range(-5,5), 0)
+	ft.global_position = global_position + Vector2.UP * 30 + Vector2(randi_range(-30, 30), 0)
 	ft.display_damage_text(actual_damage, flag)
 	if hits_required <= 0:
 		queue_free()
@@ -60,7 +60,7 @@ func update_display():
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
-		print("砖块收到点击事件！位置：", event.position)
+		#print("砖块收到点击事件！位置：", event.position)
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if GameManage.can_mouse:
 				take_hit(GameManage.mouse_click, 1)

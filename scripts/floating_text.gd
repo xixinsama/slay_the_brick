@@ -15,7 +15,7 @@ func display_damage_text(damage_amount: float, flag: int = 0)-> void:
 	if flag == 0:
 		pass
 	elif flag == 1:
-		label.theme.set_color("flat_theme", "theme", Color.CORNFLOWER_BLUE)
+		label.set("theme_override_colors/font_color", Color.CORNFLOWER_BLUE)
 	position_tween = create_tween()
 	scale_tween = create_tween()
 	position_tween.tween_property(self, "global_position", global_position + Vector2.UP * 16, 0.3)
