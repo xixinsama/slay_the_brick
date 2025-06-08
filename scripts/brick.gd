@@ -4,6 +4,8 @@ extends RigidBody2D
 @export var hits_required: int = 99
 @export var shape: PackedVector2Array = PackedVector2Array()
 
+const FLOATING_TEXT = preload("res://scenes/floating_text.tscn")
+
 @onready var polygon_2d: Polygon2D = $Polygon2D
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var p_2cp: P2CP = $P2CP
@@ -25,6 +27,11 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 	else: 
 		actual_damage = hurt
 	hits_required -= actual_damage
+	# 添加飘字
+	var ft := FLOATING_TEXT.instantiate()
+	add_child(ft)
+	ft.global_position = global_position + Vector2.UP * 30 + Vector2(randi_range(-5,5), 0)
+	ft.display_damage_text(actual_damage, flag)
 	if hits_required <= 0:
 		queue_free()
 		#get_tree().call_group("game", "brick_destroyed")

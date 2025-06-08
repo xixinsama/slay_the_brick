@@ -19,7 +19,7 @@ var level_time_now: float ## 实际关卡时间
 
 ## 鼠标类
 var can_mouse: bool = true ## 能否鼠标点方块
-var mouse_click: int = 10 ## 鼠标点方块的伤害
+var mouse_click: int = 1 ## 鼠标点方块的伤害
 var mouse2points: float = 1.0 ## 鼠标点方块的积分转换效率
 
 ## 球类
@@ -30,9 +30,9 @@ var redball_damage: int = 1
 var redball_speed: float = 20
 var redball_radius: float = 5
 ## 黄球
-var yellowball_damage: int = 2
-var yellowball_speed: float = 50
-var yellowball_radius: float = 8
+var yellowball_damage: int = 1
+var yellowball_speed: float = 1000
+var yellowball_radius: float = 20
 ## 蓝球
 var blueball_damage: int = 4
 var blueball_speed: float = 100
@@ -336,3 +336,14 @@ func _handle_升级(card: Card) -> void:
 func _handle_你给路打哟(card: Card):
 	var last_two := card_excute_logs.slice(-2, -1)
 	print(last_two)
+	
+func _handle_变高(card: Card) -> void:
+	## 效果
+	var value: float = 1.6 if card.is_upgrade else 1.5
+	ball2points *= value
+	## 日志记录
+	card_play_logs.append({
+		"card": card.card_data.card_name,
+		"effect": "ball2points*" + str(value),
+		"execute": true
+	})

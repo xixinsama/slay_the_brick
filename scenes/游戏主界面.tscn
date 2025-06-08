@@ -198,6 +198,7 @@ script = ExtResource("6_0ityr")
 
 [node name="卡牌展示界面" type="CanvasLayer" parent="."]
 layer = 5
+visible = false
 script = ExtResource("9_jy5ho")
 
 [node name="PanelContainer" type="PanelContainer" parent="卡牌展示界面"]

@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 	# 阴影移动
 	#print(is_shadow)
 	if is_shadow:
-		shadow.global_position = 2 * global_position - get_global_mouse_position() + SIZE / 2 * HOVER_SCALE
+		shadow.global_position = global_position - (get_global_mouse_position() - global_position - SIZE / 2 * HOVER_SCALE) * 0.4
 	match cardCurrentState:
 		cardState.dragging:
 			var mouse_position = get_global_mouse_position()

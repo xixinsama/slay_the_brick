@@ -54,13 +54,13 @@ func delete_card(old_card: Card):
 func change_cards_pos(dragged_card: Card, drop_pos: Vector2) -> void:
 	# 获取当前拖拽卡牌的索引
 	var dragged_index := card_instances.find(dragged_card)
-	#print(dragged_index)
+	print(dragged_index)
 	if dragged_index == -1:
 		return
 
 	# 转换坐标到本地坐标系
 	var local_pos: Vector2 = drop_pos - global_position
-	#print(local_pos)
+	print(local_pos)
 	# 计算最近的位置索引
 	var closest_index := 0
 	var min_distance := INF

@@ -1,8 +1,5 @@
 extends Node2D
 
-#@onready var game_viewport_container: SubViewportContainer = $GameViewportContainer
-#@onready var game_viewport: SubViewport = $GameViewportContainer/GameViewport
-
 ## 主世界
 @onready var world: MainWorld = $world
 ## UI
@@ -12,6 +9,11 @@ extends Node2D
 @onready var 牌效果信息: Label = $UI/leftPanel/MarginContainer/VBoxContainer/牌效果信息
 ## 图书馆
 @onready var 卡牌展示界面: CardDisplayUI = $卡牌展示界面
+
+enum game_state {
+	card_play,
+	ball_play
+}
 
 signal card_phase_end
 

@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://ebscwkx2hncl"]
+
+[ext_resource type="Theme" uid="uid://ih3wy4fpftfi" path="res://resources/flat_theme.tres" id="1_45khh"]
+[ext_resource type="Script" uid="uid://gb08gtkmdip0" path="res://scripts/floating_text.gd" id="1_vqah5"]
+
+[node name="FloatingText" type="Node2D"]
+z_index = 7
+z_as_relative = false
+script = ExtResource("1_vqah5")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(52, 23.2)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -11.6
+offset_right = 26.0
+offset_bottom = 11.6
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_45khh")
+theme_override_colors/font_color = Color(0.819608, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "999999"
