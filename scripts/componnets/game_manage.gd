@@ -13,7 +13,7 @@ var value_logs: Array = [] ## 弹球阶段的日志，只保留一回合
 
 ## 关卡类
 var level_now: int = 0
-var level_time: Array[float] = [20, 20, 30, 25, 25, 35, 30, 30, 40] ## 每关基础时间
+var level_time: Array[float] = [200, 20, 30, 25, 25, 35, 30, 30, 40] ## 每关基础时间
 var layer_now: int = 0 ## 第几层
 var level_time_now: float ## 实际关卡时间
 
@@ -219,7 +219,6 @@ func apply_card_effect():
 	# 卡牌离开准备队列
 
 
-
 # 具体效果实现 --------------------------------------------
 func _handle_模板(card: Card) -> void:
 	## 效果
@@ -275,10 +274,10 @@ func _handle_变强(card: Card) -> void:
 		"execute": true
 	})
 
-func _handle_对撞实验(card: Card) -> void:
+func _handle_对撞实验(card: Card) -> void: ##bug
 	## 效果
 	var rq: ReadyQueue = get_node(rq)
-	var index: int = rq.card_instances.find(card)
+	var index: int = rq.card_instances.find(card) ##bug
 	if index <= 1: 
 		card_play_logs.append({
 			"card": card.card_data.card_name,

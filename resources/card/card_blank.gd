@@ -4,12 +4,15 @@ class_name Card
 extends Control
 
 const HINT = preload("res://scenes/hint.tscn")
+#const CARD_BLANK = preload("res://scenes/card_blank.tscn")
 
+@onready var shadow: ColorRect = $shadow
+@onready var frame: TextureRect = $Frame
 @onready var energy: Label = $MarginContainer/VBoxContainer/HBoxContainer/Energy
 @onready var card_name: Label = $MarginContainer/VBoxContainer/HBoxContainer/CardName
 @onready var card_face: TextureRect = $MarginContainer/VBoxContainer/CardFace
 @onready var card_type: Label = $MarginContainer/VBoxContainer/HBoxContainer/CardType
-@onready var effect: RichTextLabel = $MarginContainer/VBoxContainer/Effect
+@onready var effect: RichTextLabel = $Button/Effect
 @onready var shake_component: ShakeComponent = $ShakeComponent
 
 signal Hand2Readqueue
@@ -25,13 +28,14 @@ var original_position: Vector2
 var original_parent: Node
 var is_draggable: bool = true  # 是否允许拖拽
 var drag_offset: Vector2  # 拖拽偏移量
+var is_shadow: bool = false # 阴影可见
 
 ##  拖拽动画相关
 var velocity: Vector2 = Vector2.ZERO
 var damping: float = 0.35
 var stiffness: int = 500
 enum cardState{following, dragging}
-var preview: Control
+#var preview: Card
 
 @export var cardCurrentState = cardState.following
 @export var follow_target_position: Vector2 = -Vector2.ONE ## 跟随坐标
@@ -39,7 +43,7 @@ var preview: Control
 # 动画相关变量
 var hover_tween: Tween
 var unhover_tween: Tween
-const HOVER_SCALE := Vector2(1.8, 1.8)
+const HOVER_SCALE := Vector2(1.5, 1.5)
 const HOVER_COLOR := Color(1.1, 1.1, 1.1)
 const ANIM_DURATION := 0.1
 var ROTATE: float = 0
@@ -47,7 +51,11 @@ var tween_times: int = 0
 signal reset_tween ## 重置补间动画，修复中断错误
 
 func _process(delta: float) -> void:
-	#print(global_position)
+	#print(cardCurrentState)
+	# 阴影移动
+	#print(is_shadow)
+	if is_shadow:
+		shadow.global_position = 2 * global_position - get_global_mouse_position() + SIZE / 2 * HOVER_SCALE
 	match cardCurrentState:
 		cardState.dragging:
 			var mouse_position = get_global_mouse_position()
@@ -64,9 +72,6 @@ func _process(delta: float) -> void:
 					whichDeckMouseIn = zone
 					#print(whichDeckMouseIn)
 					break  # 找到第一个符合条件的区域即可
-			#else:
-				#shake_component.tween_shake()
-				#_on_button_button_up()
 		cardState.following:
 			if follow_target_position != -Vector2.ONE:
 				var displacement = follow_target_position - global_position
@@ -79,6 +84,7 @@ func _process(delta: float) -> void:
 				velocity += force * delta
 				velocity *= (1.0 - damping)
 				global_position += velocity * delta
+	
 
 func _set_card_data(new_data: CardBase) -> void:
 	card_data = new_data
@@ -135,6 +141,8 @@ func _on_mouse_entered() -> void:
 	hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
 	# 提升层级避免被遮挡
 	z_index += 1
+	# 影子偏移
+	is_shadow = true
 
 func _on_mouse_exited() -> void:
 	# 取消之前的动画
@@ -148,18 +156,26 @@ func _on_mouse_exited() -> void:
 		unhover_tween.parallel().tween_property(self, "modulate", Color.WHITE, ANIM_DURATION)
 	# 恢复层级
 	z_index -= 1
+	# 影子归位
+	if cardCurrentState == cardState.following:
+		is_shadow = false
+		shadow.global_position = global_position
 
 func _on_button_button_down() -> void:
 	if is_draggable:
 		# 保存原始状态
 		original_position = global_position
 		original_parent = get_parent()
-		# 生成预览复制
-		preview = self.duplicate()
-		original_parent.add_child(preview)
-		preview.global_position = original_position
-		preview.modulate.a = 0.5
-		preview.set_process(false)
+		## 生成预览复制
+		#preview = CARD_BLANK.instantiate()
+		#original_parent.add_child(preview)
+		#preview.card_data = card_data
+		#preview.init_card()
+		#preview.global_position = original_position
+		#preview.modulate.a = 0.5
+		##disconnect_all_signals_in_scene(preview)
+		##preview.set_process(false)
+		#preview.clear_hint()
 		# 拖拽 
 		cardCurrentState = cardState.dragging
 		drag_offset = get_global_mouse_position() - global_position
@@ -167,18 +183,15 @@ func _on_button_button_down() -> void:
 		await get_tree().process_frame
 		var current_connector = ArrowConnector.new()
 		current_connector.target_node = self
-		current_connector.start_offset = Vector2(SIZE.x / 2, 0)
+		current_connector.start_offset = Vector2(SIZE.x / 2, SIZE.y / 2)
 		current_connector.end_offset = Vector2(SIZE.x / 2, SIZE.y)
-		preview.add_child(current_connector)
+		#preview.add_child(current_connector)
 	else:
 		shake_component.tween_shake()
 
 func _on_button_button_up() -> void:
 	var now_pos: Vector2 = global_position ## 为了解决位置瞬移的特殊bug
 	if whichDeckMouseIn != null:
-		#print("可放置")
-		#print("前主人：", original_parent)
-		#print("现主人：", whichDeckMouseIn)
 		if original_parent == whichDeckMouseIn:
 			#print("放回")
 			if original_parent.name == "准备队列":
@@ -186,39 +199,45 @@ func _on_button_button_up() -> void:
 				original_parent.change_cards_pos(self, get_global_mouse_position())
 			else: original_parent._update_cards()
 		else:
-			if original_parent is ReadyQueue: Hand2Readqueue.emit()
-			elif original_parent is Hand: Readqueue2Hand.emit()
+			if whichDeckMouseIn is ReadyQueue:
+				if whichDeckMouseIn.card_instances.size() < whichDeckMouseIn.fields:
+					original_parent.delete_card(self)
+					whichDeckMouseIn.add_card(self)
+					Hand2Readqueue.emit()
+				else:
+					print("准备队列栏位已满")
+			elif whichDeckMouseIn is Hand:
+				original_parent.delete_card(self)
+				whichDeckMouseIn.add_card(self)
+				Readqueue2Hand.emit()
 			else: pass
-			original_parent.delete_card(self)
-			whichDeckMouseIn.add_card(self)
-			self.global_position = now_pos
-	
+			global_position = now_pos
 	cardCurrentState = cardState.following
-	#if current_connector:
-		#current_connector.queue_free()
-		#current_connector = null
-	if preview: preview.queue_free()
+	#if preview: preview.queue_free()
+	clear_hint()
 
 
 func _on_effect_meta_hover_started(meta: Variant) -> void:
 	# 生成提示
-	if get_parent().get_node_or_null(str(meta)) == null:
+	if get_node_or_null(str(meta)) == null and cardCurrentState == cardState.following:
 		var hint: Hint = HINT.instantiate()
-		hint.name = str(meta)
-		get_parent().add_child(hint)
+		add_child(hint)
 		hint.init_hint(str(meta))
-		if global_position.x < get_viewport_rect().size.x / 2:
-			hint.global_position = global_position + Vector2(280.0, 100)
-		else:
-			hint.global_position = global_position + Vector2(-350, 100)
+		# 生成箭头
 		var current_connector = ArrowConnector.new()
 		current_connector.target_node = self
-		#current_connector.start_offset = 
+		current_connector.start_offset = Vector2(121.5, 0)
 		current_connector.end_offset = get_global_mouse_position() - global_position
 		hint.add_child(current_connector)
 	else:
-		print("已存在")
+		print("hint已存在：" + str(meta))
 
 func _on_effect_meta_hover_ended(meta: Variant) -> void:
-	if get_parent().get_node_or_null(str(meta)) != null:
-		get_parent().get_node(str(meta)).queue_free()
+	if get_node_or_null(str(meta)) != null and cardCurrentState == cardState.following:
+		get_node(str(meta)).queue_free()
+
+## 清除所有的提示
+func clear_hint() -> void:
+	for child in get_children():
+		if child is Hint:
+			child.queue_free()

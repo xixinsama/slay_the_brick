@@ -52,8 +52,6 @@ func _generate_cards() -> void:
 		card.card_data = card_data
 		card.is_draggable = false
 		card.init_card()
-		## 停止卡牌帧处理
-		card.set_process(false)
 
 # 清空卡牌
 func _clear_cards() -> void:
@@ -128,7 +126,7 @@ func _play_enter_animation() -> void:
 			.set_ease(Tween.EASE_OUT)
 		tween.tween_property(card, "modulate", Color.WHITE, 0.3)\
 			.set_delay(i * 0.02)
-
+	
 func _arrange_with_animation() -> void:
 	if card_instances.is_empty():
 		return
@@ -142,6 +140,10 @@ func _arrange_with_animation() -> void:
 			tween.tween_property(card, "position", target_pos, 0.3)\
 				.set_ease(Tween.EASE_IN_OUT)\
 				.set_trans(Tween.TRANS_CUBIC)
+	
+	await tween.finished
+	for card in card_instances:
+		card.follow_target_position = card.global_position
 
 #=== 信号处理 ===#
 func _on_sort_option_selected(index: int) -> void:

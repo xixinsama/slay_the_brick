@@ -32,12 +32,13 @@ anchors_preset = 0
 pivot_offset = Vector2(67.5, 108)
 script = ExtResource("1_aqy1u")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-custom_minimum_size = Vector2(135, 216)
+[node name="shadow" type="ColorRect" parent="."]
+z_index = 5
+z_as_relative = false
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 135.0
+offset_bottom = 216.0
+color = Color(0.0392157, 0.152941, 0.0901961, 0.572549)
 
 [node name="Frame" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(135, 216)
@@ -108,7 +109,18 @@ size_flags_vertical = 3
 mouse_filter = 1
 theme = ExtResource("3_sy14f")
 bbcode_enabled = true
-text = "卡牌效果：[u][color=yellow][url=gy]固有[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=kzxcs]可执行次数x[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]。[u][color=yellow][url=xh]消耗[/url][/color][/u]
+text = "卡牌效果
+[u][color=yellow][url=gy]固有[/url][/color][/u]
+[u][color=yellow][url=xh]消耗[/url][/color][/u]
+[u][color=yellow][url=kzxcs]可执行次数x[/url][/color][/u]
+[u][color=yellow][url=qr]嵌入[/url][/color][/u]
+[u][color=yellow][url=bl]保留[/url][/color][/u]
+[u][color=yellow][url=bktz]不可拖拽[/url][/color][/u]
+[u][color=yellow][url=xw]虚无[/url][/color][/u]
+[u][color=red][url=qzzx]强制执行[/url][/color][/u]
+[u][color=red][url=thzx]替换执行[/url][/color][/u]
+[u][color=red][url=fzzx]复制执行[/url][/color][/u]
+[u][color=red][url=fzxgzx]复制效果执行[/url][/color][/u]
 "
 fit_content = true
 
@@ -123,5 +135,3 @@ metadata/_custom_type_script = "uid://c0s02vpxkjixi"
 [connection signal="mouse_exited" from="Button" to="." method="_on_mouse_exited"]
 [connection signal="meta_hover_ended" from="Button/Effect" to="." method="_on_effect_meta_hover_ended"]
 [connection signal="meta_hover_started" from="Button/Effect" to="." method="_on_effect_meta_hover_started"]
-[connection signal="mouse_entered" from="Button/Effect" to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Button/Effect" to="." method="_on_mouse_exited"]

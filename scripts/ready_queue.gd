@@ -1,16 +1,14 @@
 class_name ReadyQueue ## 准备队列
 extends ColorRect
 
-#var current_cards: Array[CardBase] = []  # 原始卡牌数据
 var card_instances: Array[Card] = []   # 当前显示的卡牌实例
+var fields: int = 13 # 栏位数量
 var card_pos: Array[Vector2] = []
 
 var gap: float = 140.0
 var panel_range: Rect2 = get_rect()
 
 func _ready() -> void:
-	#print(panel_range)
-	#print(position, global_position)
 	pass
 
 ## 管理卡牌位置
@@ -33,7 +31,6 @@ func add_card(new_card: Card):
 	new_card.rotation = 0
 	self.add_child(new_card)
 	card_instances.append(new_card)
-	#current_cards.append(new_card.card_data)
 	_update_cards()
 
 ## 通过卡牌信息添加一张牌
@@ -51,21 +48,19 @@ func add_card_by_base(new_base: CardBase):
 func delete_card(old_card: Card):
 	var index: int = card_instances.find(old_card)
 	card_instances.pop_at(index)
-	#var old_card_data = current_cards.pop_at(index)
-	#if old_card_data != old_card.card_data:
-		#print("数据错误！！！无法对应")
 	self.remove_child(old_card)
 
 ## 智能调换卡牌位置
 func change_cards_pos(dragged_card: Card, drop_pos: Vector2) -> void:
 	# 获取当前拖拽卡牌的索引
 	var dragged_index := card_instances.find(dragged_card)
+	#print(dragged_index)
 	if dragged_index == -1:
 		return
 
 	# 转换坐标到本地坐标系
 	var local_pos: Vector2 = drop_pos - global_position
-	print(local_pos)
+	#print(local_pos)
 	# 计算最近的位置索引
 	var closest_index := 0
 	var min_distance := INF

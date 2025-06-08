@@ -51,7 +51,7 @@ func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_
 ## 生成位置固定，整数0123对应红黄蓝紫球等
 func spawn_ball(flag: int = 0) -> void:
 	scene = BALL
-	var ball = spawn(spawn_here.position, balls_here, flag)
+	var ball = spawn(spawn_here.global_position, balls_here, flag)
 	balls.append(ball)
 
 ## 将球对应为数字

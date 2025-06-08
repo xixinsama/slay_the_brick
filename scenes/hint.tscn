@@ -20,15 +20,10 @@ color = Color(0.890887, 0.792128, 1, 1)
 
 [node name="Effect" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_right = 320.0
-offset_bottom = 94.0
+offset_right = 135.0
+offset_bottom = 48.0
 size_flags_vertical = 3
 theme = ExtResource("1_lsscw")
-theme_override_font_sizes/bold_italics_font_size = 32
-theme_override_font_sizes/italics_font_size = 32
-theme_override_font_sizes/mono_font_size = 32
-theme_override_font_sizes/normal_font_size = 32
-theme_override_font_sizes/bold_font_size = 32
 text = "卡牌效果描述
 说人话
 "

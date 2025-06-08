@@ -6,9 +6,12 @@ class_name ArrowConnector
 @export var curve_color := Color("#4a90e2")
 @export var line_width := 2.0
 @export var arrow_size := 12.0
-@export var curve_height := 80.0
+@export var max_curve_height := 100.0  # 最大曲线高度
+@export var min_curve_height := 30.0   # 最小曲线高度
 @export var start_offset: Vector2 = Vector2.ZERO
 @export var end_offset: Vector2 = Vector2.ZERO
+@export var curve_smoothness := 0.5  # 曲线平滑度 (0.0-1.0)
+@export var arrow_head_ratio := 0.7  # 箭头头部比例 (0.5-1.0)
 
 # 私有变量
 var _current_target: CanvasItem = null
@@ -40,7 +43,10 @@ func _draw():
 	var end = _get_target_position() + end_offset
 	var points = _calculate_bezier_curve(start, end)
 	
+	# 绘制曲线
 	draw_polyline(points, curve_color, line_width, true)
+	
+	# 绘制箭头
 	_draw_arrow(points)
 
 func _should_draw() -> bool:
@@ -57,33 +63,71 @@ func _get_target_position() -> Vector2:
 	return Vector2.ZERO
 
 func _calculate_bezier_curve(start: Vector2, end: Vector2) -> PackedVector2Array:
-	var control_point = (start + end) / 2 + (end - start).rotated(PI/2).normalized() * curve_height
+	var direction = (end - start).normalized()
+	var distance = start.distance_to(end)
+	
+	# 自适应曲线高度 - 基于距离
+	var height_factor = clamp(distance / 300.0, 0.1, 1.0)
+	var curve_height = lerp(min_curve_height, max_curve_height, height_factor)
+	
+	# 修正：双控制点创建真正的S形曲线
+	# 第一个控制点在垂直方向上方，第二个在下方
+	var perpendicular = direction.rotated(PI/2)
+	var control_point1 = start + direction * (distance * 0.3 * curve_smoothness) + perpendicular * curve_height
+	var control_point2 = end - direction * (distance * 0.3 * curve_smoothness) - perpendicular * curve_height
+	
 	var points = PackedVector2Array()
 	
-	for t in 20:
-		var ratio = t / 20.0
-		var point = start.bezier_interpolate(
-			control_point,
-			control_point,
-			end,
-			ratio
-		)
+	# 动态采样点数量 - 基于距离
+	var steps = max(10, int(distance / 10))
+	
+	for i in steps + 1:
+		var t = i / float(steps)
+		var point = _cubic_bezier(start, control_point1, control_point2, end, t)
 		points.append(to_local(point))
 	
 	return points
+
+# 三次贝塞尔曲线计算
+func _cubic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, p3: Vector2, t: float) -> Vector2:
+	var u = 1.0 - t
+	var tt = t * t
+	var uu = u * u
+	var uuu = uu * u
+	var ttt = tt * t
+	
+	var p = uuu * p0 # (1-t)^3 * P0
+	p += 3 * uu * t * p1 # 3*(1-t)^2*t * P1
+	p += 3 * u * tt * p2 # 3*(1-t)*t^2 * P2
+	p += ttt * p3 # t^3 * P3
+	
+	return p
 
 func _draw_arrow(points: PackedVector2Array) -> void:
 	if points.size() < 2:
 		return
 	
 	var tip = points[-1]
-	var direction = (tip - points[-2]).normalized()
+	var base_index = max(0, points.size() - 2)
+	var direction = (tip - points[base_index]).normalized()
+	
+	# 箭头大小
 	var base = tip - direction * arrow_size
 	
-	var left = base + direction.rotated(PI/2) * arrow_size/2
-	var right = base + direction.rotated(-PI/2) * arrow_size/2
+	# 箭头形状参数化
+	var wing_length = arrow_size * arrow_head_ratio
+	var wing_width = arrow_size * 0.4
 	
-	draw_colored_polygon(PackedVector2Array([left, tip, right]), curve_color)
+	var left_wing = base + direction.rotated(PI/2) * wing_width
+	var right_wing = base + direction.rotated(-PI/2) * wing_width
+	var left_tip = tip + direction.rotated(PI/2) * wing_width - direction * wing_length
+	var right_tip = tip + direction.rotated(-PI/2) * wing_width - direction * wing_length
+	
+	# 绘制箭头主体
+	draw_colored_polygon(PackedVector2Array([base, left_wing, left_tip, tip, right_tip, right_wing]), curve_color)
+	
+	# 添加箭头中线
+	draw_line(base, tip, curve_color.darkened(0.1), line_width * 0.7)
 
 func _connect_target_signals():
 	if _current_target.has_signal("tree_exiting"):
@@ -95,7 +139,10 @@ func _connect_target_signals():
 		_current_target.connect("transform_changed", _on_target_moved)
 
 func _disconnect_target_signals():
-	if _current_target.has_signal("tree_exiting"):
+	if not is_instance_valid(_current_target):
+		return
+	
+	if _current_target.has_signal("tree_exiting") and _current_target.is_connected("tree_exiting", _on_target_exiting):
 		_current_target.disconnect("tree_exiting", _on_target_exiting)
 	
 	if _current_target is Control && (_current_target as Control).is_connected("resized", _on_target_moved):
