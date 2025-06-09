@@ -76,9 +76,9 @@ func change_cards_pos(dragged_card: Card, drop_pos: Vector2) -> void:
 	if new_index < dragged_index:
 		swap(card_instances, new_index, dragged_index)
 	elif new_index == dragged_index: return
-	elif new_index > dragged_index and new_index <= card_instances.size():
+	elif new_index > dragged_index and new_index < card_instances.size():
 		swap(card_instances, new_index, dragged_index)
-	elif new_index > dragged_index and new_index > card_instances.size():
+	elif new_index > dragged_index and new_index >= card_instances.size():
 		card_instances.push_back(card_instances.pop_at(dragged_index))
 	
 	_update_cards()

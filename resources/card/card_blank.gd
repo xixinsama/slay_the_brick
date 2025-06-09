@@ -140,7 +140,7 @@ func _on_mouse_entered() -> void:
 	hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
 	hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
 	# 提升层级避免被遮挡
-	z_index += 1
+	z_index == 99
 	# 影子偏移
 	is_shadow = true
 
@@ -155,7 +155,7 @@ func _on_mouse_exited() -> void:
 	if modulate.a != 0.5:
 		unhover_tween.parallel().tween_property(self, "modulate", Color.WHITE, ANIM_DURATION)
 	# 恢复层级
-	z_index -= 1
+	z_index = 5 # 
 	# 影子归位
 	if cardCurrentState == cardState.following:
 		is_shadow = false

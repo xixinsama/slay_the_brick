@@ -170,6 +170,7 @@ func cost_test(cost: int) -> bool:
 		return true
 	else: return false
 
+## 执行器
 func apply_card_effect():
 	_origin_card_sequence = get_cards_stack(0)
 	if _origin_card_sequence == []:
