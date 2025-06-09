@@ -55,6 +55,7 @@ func delete_card(old_card: Card):
 	var index: int = card_instances.find(old_card)
 	card_instances.pop_at(index)
 	self.remove_child(old_card)
+	_update_cards()
 
 ## 拖拽调换卡牌位置
 ## 只进行俩俩交换

@@ -33,7 +33,7 @@ pivot_offset = Vector2(67.5, 108)
 script = ExtResource("1_aqy1u")
 
 [node name="shadow" type="ColorRect" parent="."]
-z_index = 5
+z_index = 4
 z_as_relative = false
 layout_mode = 0
 offset_right = 135.0

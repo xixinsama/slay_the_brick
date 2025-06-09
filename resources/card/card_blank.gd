@@ -54,8 +54,17 @@ func _process(delta: float) -> void:
 	#print(cardCurrentState)
 	# 阴影移动
 	#print(is_shadow)
+	if scale == Vector2.ONE:
+		is_shadow = false
+		shadow.global_position = global_position
+	else: 
+		is_shadow = true
+	# 阴影偏移
 	if is_shadow:
-		shadow.global_position = global_position - (get_global_mouse_position() - global_position - SIZE / 2 * HOVER_SCALE) * 0.4
+		var shadow_offset: Vector2 = (get_global_mouse_position() - global_position - SIZE / 2 * HOVER_SCALE) * 0.4
+		shadow_offset = shadow_offset.clamp(-Card.SIZE/2, Card.SIZE/2)
+		shadow.global_position = global_position - shadow_offset
+		
 	match cardCurrentState:
 		cardState.dragging:
 			var mouse_position = get_global_mouse_position()
@@ -142,7 +151,7 @@ func _on_mouse_entered() -> void:
 	# 提升层级避免被遮挡
 	z_index == 99
 	# 影子偏移
-	is_shadow = true
+	#is_shadow = true
 
 func _on_mouse_exited() -> void:
 	# 取消之前的动画
@@ -157,9 +166,9 @@ func _on_mouse_exited() -> void:
 	# 恢复层级
 	z_index = 5 # 
 	# 影子归位
-	if cardCurrentState == cardState.following:
-		is_shadow = false
-		shadow.global_position = global_position
+	#if cardCurrentState == cardState.following:
+		#is_shadow = false
+		#shadow.global_position = global_position
 
 func _on_button_button_down() -> void:
 	if is_draggable:
