@@ -12,6 +12,7 @@ var card_play_logs: Array = [] ## 卡牌效果执行情况信息
 var value_logs: Array = [] ## 弹球阶段的日志，只保留一回合
 
 ## 关卡类
+#class leveltime
 var level_now: int = 0
 var level_time: Array[float] = [200, 20, 30, 25, 25, 35, 30, 30, 40] ## 每关基础时间
 var layer_now: int = 0 ## 第几层
@@ -41,6 +42,7 @@ var blueball_radius: float = 15
 var purpleball_damage: int = 8
 var purpleball_speed: float = 200
 var purpleball_radius: float = 25
+##_____________________________________________________________________________
 
 ## 卡牌池
 ## 统统使用该对象池里的实例
@@ -56,6 +58,8 @@ func recycle_card(card: Card):
 	card.hide()
 	card.set("card_data", null) ## 这里已经初始化了
 	card_pool.append(card)
+
+##_____________________________________________________________________________
 
 ## 路径
 const rq: String = "/root/main/UI/card_play/准备队列"   ## 准备队列
@@ -164,6 +168,7 @@ func goto_stack(cb: CardBase, flag: int = 0) -> void:
 				return
 
 ## 消耗能量
+## 疑似bug
 func cost_test(cost: int) -> bool:
 	if cost <= energy_now:
 		energy_now -= cost
@@ -178,6 +183,8 @@ func apply_card_effect():
 	else:
 		cardplay_num -= 1
 	# 依次执行
+	# 当前卡牌是否被跳过
+	# 能量
 	for running_card in _origin_card_sequence:
 		if is_next_passed:
 			print(running_card.card_data.card_name, "被跳过")
@@ -186,6 +193,7 @@ func apply_card_effect():
 				"execute": false,
 				"why": "passed"
 			})
+			is_next_passed = false
 			break
 		else:
 			# 获取实际能量消耗
@@ -196,6 +204,7 @@ func apply_card_effect():
 			if cost_test(actual_cost):
 				var effect_method = "_handle_%s" % running_card.card_data.card_name.to_lower().replace(" ", "_")
 				if self.has_method(effect_method):
+					# 效果执行次数
 					for i in range(next_excute_times):
 						call(effect_method, running_card)
 						card_excute_logs.append({
@@ -203,6 +212,8 @@ func apply_card_effect():
 							"execute": true,
 							"why": next_excute_times
 						})
+					
+					next_excute_times = 1
 				else:
 					card_excute_logs.append({
 						"card": running_card.card_data.card_name,

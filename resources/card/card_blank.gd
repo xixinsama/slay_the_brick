@@ -39,6 +39,8 @@ enum cardState{following, dragging}
 
 @export var cardCurrentState = cardState.following
 @export var follow_target_position: Vector2 = -Vector2.ONE ## 跟随坐标
+enum follow_type {HAND, READY, DRAW, DISCARD, EXPEND, VANISH}
+var follow_which: follow_type = follow_type.VANISH
 
 # 动画相关变量
 var hover_tween: Tween
@@ -48,6 +50,7 @@ const HOVER_COLOR := Color(1.1, 1.1, 1.1)
 const ANIM_DURATION := 0.1
 var ROTATE: float = 0
 var tween_times: int = 0
+var z_index_now: int = 0
 signal reset_tween ## 重置补间动画，修复中断错误
 
 func _process(delta: float) -> void:
@@ -138,6 +141,7 @@ func _on_mouse_entered() -> void:
 	if hover_tween:
 		hover_tween.kill()
 	ROTATE = rotation_degrees
+	z_index_now = z_index
 	#pos_now = global_position
 	tween_times += 1
 	if tween_times == 50:
@@ -145,11 +149,22 @@ func _on_mouse_entered() -> void:
 		tween_times = 0
 	# 创建新的悬停动画
 	hover_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	hover_tween.tween_property(self, "scale", HOVER_SCALE, ANIM_DURATION)
-	hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
-	hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
+	# 对不同的区域定制动画
+	if follow_which == follow_type.HAND:
+		hover_tween.tween_property(self, "scale", HOVER_SCALE, ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
+	elif follow_which == follow_type.READY:
+		hover_tween.tween_property(self, "scale", Vector2(1.2, 1.2), ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "modulate", Color(1, 1, 1, 0.3), ANIM_DURATION)
+	else:
+		hover_tween.tween_property(self, "scale", HOVER_SCALE, ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
 	# 提升层级避免被遮挡
 	z_index == 99
+	move_to_front()
 	# 影子偏移
 	#is_shadow = true
 
@@ -160,11 +175,13 @@ func _on_mouse_exited() -> void:
 	# 创建新的恢复动画
 	unhover_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	unhover_tween.tween_property(self, "scale", Vector2.ONE, ANIM_DURATION)
-	unhover_tween.parallel().tween_property(self, "rotation_degrees", ROTATE, ANIM_DURATION)
-	if modulate.a != 0.5:
-		unhover_tween.parallel().tween_property(self, "modulate", Color.WHITE, ANIM_DURATION)
+	if follow_which == follow_type.HAND:
+		unhover_tween.parallel().tween_property(self, "rotation_degrees", ROTATE, ANIM_DURATION)
+	elif follow_which == follow_type.READY:
+		unhover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
+	unhover_tween.parallel().tween_property(self, "modulate", Color.WHITE, ANIM_DURATION)
 	# 恢复层级
-	z_index = 5 # 
+	z_index = z_index_now
 	# 影子归位
 	#if cardCurrentState == cardState.following:
 		#is_shadow = false

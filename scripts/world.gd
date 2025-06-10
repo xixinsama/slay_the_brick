@@ -1,9 +1,6 @@
 extends Node2D
 class_name MainWorld
 
-
-
-
 ## 挂载节点的节点
 @onready var wall: WallMap = $wall
 @onready var bricks_here: Node2D = $bricks

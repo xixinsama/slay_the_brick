@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameManage="*res://scripts/componnets/game_manage.gd"
+GameManage="*res://scripts/game_manage.gd"
 ImportCard="*res://resources/card/csv2card/import_card.gd"
 
 [display]

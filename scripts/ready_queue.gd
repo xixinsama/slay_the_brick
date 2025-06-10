@@ -2,8 +2,7 @@ class_name ReadyQueue ## 准备队列
 extends ColorRect
 
 var card_instances: Array[Card] = [] # 当前显示的卡牌实例
-var fields: int = 13 # 栏位数量
-var card_pos: Array[Vector2] = [] # 卡片跟随的位置信息
+@export var fields: int = 13 ## 栏位数量
 
 var gap: float = 140.0 # 初始间隔距离
 var act_gap: float = 0 # 实际间隔距离
@@ -16,25 +15,18 @@ func _ready() -> void:
 ## 严格按照 card_instances 排列
 ## 赋予卡牌确定的跟随位置信息
 func _update_cards() -> void:
-	# 清空旧坐标
-	card_pos.clear()
 	# 生成坐标
 	if card_instances.size() * gap > panel_range.size.x:
 		act_gap = panel_range.size.x / card_instances.size()
 	else: act_gap = gap
 	for i in range(card_instances.size()):
-		card_pos.append(Vector2(act_gap * i, 0))
-	var n: int = 0
-	# 跟随确定
-	for cards in card_instances:
-		cards.z_index = 6 + n
-		cards.follow_target_position = card_pos[n] + global_position
-		n += 1
-
+		card_instances[i].set("rotation", 0)
+		card_instances[i].z_index = 6 + i
+		card_instances[i].follow_target_position = Vector2(act_gap * i, 0) + global_position
+		card_instances[i].follow_which = Card.follow_type.READY
 
 ## 通过拖拽获得卡牌
 func add_card(new_card: Card):
-	new_card.rotation = 0
 	self.add_child(new_card)
 	card_instances.append(new_card)
 	_update_cards()
@@ -65,7 +57,6 @@ func delete_card(old_card: Card):
 func change_cards_pos(dragged_card: Card, drop_pos: Vector2) -> void:
 	# 获取当前拖拽卡牌的索引
 	var dragged_index := card_instances.find(dragged_card)
-	print(dragged_index)
 	if dragged_index == -1:
 		return
 
