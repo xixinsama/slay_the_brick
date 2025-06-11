@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dc0de6uy47d7h"]
+[gd_scene load_steps=10 format=3 uid="uid://dc0de6uy47d7h"]
 
 [ext_resource type="PackedScene" uid="uid://dmjmjwiypp8j0" path="res://scenes/world.tscn" id="1_e40k4"]
 [ext_resource type="Script" uid="uid://bjre8ocnycv6r" path="res://scripts/游戏主界面.gd" id="1_n5jov"]
@@ -7,6 +7,7 @@
 [ext_resource type="Curve" uid="uid://b7mx84xri38xi" path="res://resources/rotation.tres" id="4_44idb"]
 [ext_resource type="Script" uid="uid://3qxuwf1tbyj0" path="res://scripts/ready_queue.gd" id="6_0ityr"]
 [ext_resource type="Script" uid="uid://dghhbu35of8fp" path="res://scripts/stack_of_ cards.gd" id="7_mpivr"]
+[ext_resource type="Theme" uid="uid://ih3wy4fpftfi" path="res://resources/flat_theme.tres" id="8_jy5ho"]
 [ext_resource type="Script" uid="uid://bmnnl67tl6g31" path="res://scripts/show_card_UI.gd" id="9_jy5ho"]
 
 [node name="main" type="Node2D"]
@@ -21,6 +22,7 @@ position = Vector2(420, 0)
 custom_minimum_size = Vector2(420, 1080)
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/leftPanel"]
 layout_mode = 0
@@ -196,9 +198,52 @@ mouse_filter = 1
 color = Color(1, 1, 1, 0.176471)
 script = ExtResource("6_0ityr")
 
+[node name="SelectPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -482.0
+offset_top = -248.0
+offset_right = 893.0
+offset_bottom = 352.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="UI/SelectPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("8_jy5ho")
+theme_override_font_sizes/font_size = 64
+text = "确认选择"
+
+[node name="Label" type="Label" parent="UI/SelectPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme = ExtResource("8_jy5ho")
+theme_override_font_sizes/font_size = 48
+text = "从手牌区选择x张牌"
+horizontal_alignment = 1
+
 [node name="卡牌展示界面" type="CanvasLayer" parent="."]
 layer = 5
-visible = false
 script = ExtResource("9_jy5ho")
 
 [node name="PanelContainer" type="PanelContainer" parent="卡牌展示界面"]
@@ -257,6 +302,13 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 160
 theme_override_constants/v_separation = 240
 columns = 8
+
+[node name="Button" type="Button" parent="卡牌展示界面/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme = ExtResource("8_jy5ho")
+text = "确认选择"
 
 [node name="RESET" type="Button" parent="."]
 offset_left = 1721.0

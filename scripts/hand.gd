@@ -41,7 +41,7 @@ func _update_cards() -> void:
 		card_instances[i].rotation_degrees = max_rotation_degrees * rot_multiplier
 		card_instances[i].z_index = 6 + i
 		card_instances[i].follow_which = Card.follow_type.HAND
-
+		
 ## 添加一张牌
 func add_card(new_card: Card):
 	self.add_child(new_card)

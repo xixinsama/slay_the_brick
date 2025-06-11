@@ -39,7 +39,7 @@ enum cardState{following, dragging}
 
 @export var cardCurrentState = cardState.following
 @export var follow_target_position: Vector2 = -Vector2.ONE ## 跟随坐标
-enum follow_type {HAND, READY, DRAW, DISCARD, EXPEND, VANISH}
+enum follow_type {HAND, READY, DRAW, DISCARD, EXPEND, VANISH, LIBRARY}
 var follow_which: follow_type = follow_type.VANISH
 
 # 动画相关变量
@@ -51,6 +51,7 @@ const ANIM_DURATION := 0.1
 var ROTATE: float = 0
 var tween_times: int = 0
 var z_index_now: int = 0
+#var pos_now: Vector2 = Vector2.ONE:
 signal reset_tween ## 重置补间动画，修复中断错误
 
 func _process(delta: float) -> void:
@@ -154,17 +155,22 @@ func _on_mouse_entered() -> void:
 		hover_tween.tween_property(self, "scale", HOVER_SCALE, ANIM_DURATION)
 		hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
 		hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
+		move_to_front() # 不可以在LIBRARY中使用此，会瞬间移动到最上的位置
 	elif follow_which == follow_type.READY:
 		hover_tween.tween_property(self, "scale", Vector2(1.2, 1.2), ANIM_DURATION)
 		hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
 		hover_tween.parallel().tween_property(self, "modulate", Color(1, 1, 1, 0.3), ANIM_DURATION)
+		move_to_front()
+	elif follow_which == follow_type.LIBRARY:
+		hover_tween.tween_property(self, "scale", HOVER_SCALE, ANIM_DURATION)
+		hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
+		print(global_position)
 	else:
 		hover_tween.tween_property(self, "scale", HOVER_SCALE, ANIM_DURATION)
 		hover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
 		hover_tween.parallel().tween_property(self, "modulate", HOVER_COLOR, ANIM_DURATION)
 	# 提升层级避免被遮挡
 	z_index == 99
-	move_to_front()
 	# 影子偏移
 	#is_shadow = true
 
@@ -179,6 +185,8 @@ func _on_mouse_exited() -> void:
 		unhover_tween.parallel().tween_property(self, "rotation_degrees", ROTATE, ANIM_DURATION)
 	elif follow_which == follow_type.READY:
 		unhover_tween.parallel().tween_property(self, "rotation_degrees", 0, ANIM_DURATION)
+	elif follow_which == follow_type.LIBRARY:
+		follow_target_position =  -Vector2.ONE
 	unhover_tween.parallel().tween_property(self, "modulate", Color.WHITE, ANIM_DURATION)
 	# 恢复层级
 	z_index = z_index_now

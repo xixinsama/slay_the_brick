@@ -23,12 +23,15 @@ var current_cards: Array[CardBase] = []
 var card_instances: Array[Card] = []
 var target_positions: Array[Vector2] = []
 
+enum mode {SHOW, SELECT}
+var current_mode: mode = mode.SHOW
+
 func _ready() -> void:
 	# 连接信号
 	close_button.pressed.connect(_on_close_button_pressed)
 	sort_option_button.item_selected.connect(_on_sort_option_selected)
 	#visibility_changed.connect(_on_visibility_changed)
-	opened.connect(_open_caed_show)
+	opened.connect(_open_card_show)
 	# 配置容器
 	card_container.add_theme_constant_override("h_separation", horizontal_spacing)
 	card_container.add_theme_constant_override("v_separation", vertical_spacing)
@@ -41,7 +44,7 @@ func init_display(cards: Array[CardBase], title: String) -> void:
 	_clear_cards()
 	_generate_cards()
 	_apply_sort(0)
-	_play_enter_animation()
+	#_play_enter_animation()
 
 # 生成卡牌实例
 func _generate_cards() -> void:
@@ -52,6 +55,10 @@ func _generate_cards() -> void:
 		card.card_data = card_data
 		card.is_draggable = false
 		card.init_card()
+		card.follow_which = Card.follow_type.LIBRARY
+	# 初始位置
+	for i in card_instances.size():
+		target_positions.append(card_instances[i].position)
 
 # 清空卡牌
 func _clear_cards() -> void:
@@ -114,19 +121,19 @@ func _calculate_layout() -> Array[Vector2]:
 	return positions
 
 #=== 动画系统 ===#
-func _play_enter_animation() -> void:
-	var tween = create_tween().set_parallel(true)
-	for i in card_instances.size():
-		var card = card_instances[i]
-		card.modulate = Color.TRANSPARENT
-		card.position += Vector2(0, 50)
-		
-		tween.tween_property(card, "position", target_positions[i], 0.4)\
-			.set_delay(i * 0.02)\
-			.set_ease(Tween.EASE_OUT)
-		tween.tween_property(card, "modulate", Color.WHITE, 0.3)\
-			.set_delay(i * 0.02)
-	
+#func _play_enter_animation() -> void:
+	#var tween = create_tween().set_parallel(true)
+	#for i in card_instances.size():
+		#var card := card_instances[i]
+		#card.modulate = Color.TRANSPARENT
+		#card.position += Vector2(0, 50)
+		#
+		#tween.tween_property(card, "position", target_positions[i], 0.4)\
+			#.set_delay(i * 0.02)\
+			#.set_ease(Tween.EASE_OUT)
+		#tween.tween_property(card, "modulate", Color.WHITE, 0.3)\
+			#.set_delay(i * 0.02)
+
 func _arrange_with_animation() -> void:
 	if card_instances.is_empty():
 		return
@@ -140,10 +147,10 @@ func _arrange_with_animation() -> void:
 			tween.tween_property(card, "position", target_pos, 0.3)\
 				.set_ease(Tween.EASE_IN_OUT)\
 				.set_trans(Tween.TRANS_CUBIC)
-	
-	await tween.finished
-	for card in card_instances:
-		card.follow_target_position = card.global_position
+		
+	#await tween.finished
+	#for card in card_instances:
+		#card.follow_target_position = card.global_position
 
 #=== 信号处理 ===#
 func _on_sort_option_selected(index: int) -> void:
@@ -154,7 +161,8 @@ func _on_close_button_pressed() -> void:
 	exit_tween.tween_property(self, "scale", Vector2(0.1, 0.1), 0.4).set_ease(Tween.EASE_IN)
 	exit_tween.finished.connect(_final_close)
 
-func _open_caed_show() -> void:
+#=== 开关信号 ===#
+func _open_card_show() -> void:
 	var open_tween = create_tween()
 	open_tween.tween_property(self, "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
 

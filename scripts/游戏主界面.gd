@@ -7,6 +7,8 @@ extends Node2D
 @onready var 准备队列: ReadyQueue = %准备队列
 @onready var card_play: Control = $UI/card_play
 @onready var 牌效果信息: Label = $UI/leftPanel/MarginContainer/VBoxContainer/牌效果信息
+@onready var select_panel: Panel = $UI/SelectPanel
+
 ## 图书馆
 @onready var 卡牌展示界面: CardDisplayUI = $卡牌展示界面
 
