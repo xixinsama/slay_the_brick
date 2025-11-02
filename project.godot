@@ -12,7 +12,7 @@ config_version=5
 
 config/name="打砖块"
 config/tags=PackedStringArray("2d", "physics", "rouge")
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -29,6 +29,10 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/script-ide-ed1f866581692fde3217ccc0c2a571ce2092ede6/addons/script-ide/plugin.cfg")
+
 [global_group]
 
 "红色小球"="等级一的小球"
@@ -43,6 +47,10 @@ card_dropzone="可拖拽和摆放卡牌的地方"
 2d_physics/layer_1="墙wall"
 2d_physics/layer_2="砖块brick"
 2d_physics/layer_3="小球ball"
+
+[physics]
+
+2d/run_on_separate_thread=true
 
 [rendering]
 

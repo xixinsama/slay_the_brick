@@ -1,11 +1,24 @@
+@tool
 extends RigidBody2D
 class_name PinBall
+
+@onready var cs_2p: CS2P = $CS2P
+@onready var label: Label = $Label
+@onready var line_2d: Line2D = $Line2D
+@onready var polygon_2d: Polygon2D = $Polygon2D
 
 ## 初始速度（像素/秒）
 @export var initial_speed: float = 50
 ## 最大允许速度（防止速度无限增加）
 @export var max_speed: float = 999
-@export var r: float = 5.0
+@export var r: float = 5.0:
+	set(value):
+		if value >= 5:
+			if not cs_2p:
+				cs_2p = get_node_or_null("CS2P")
+			r = value
+			if cs_2p:
+				cs_2p.setup_radius(r)
 @export var max_r: float = 150.0
 ## 碰撞伤害
 @export var damage: int = 1
@@ -14,16 +27,12 @@ class_name PinBall
 ## 是否启用方向过滤（防止纯垂直/水平方向）
 @export var enable_direction_filter: bool = true
 
-@onready var cs_2p: CS2P = $CS2P
-@onready var label: Label = $Label
-@onready var line_2d: Line2D = $Line2D
-@onready var polygon_2d: Polygon2D = $Polygon2D
-
 # 碰撞信号（用于触发特效/音效）
 signal collided(normal: Vector2)
 
 func _ready():
 	setup_physics_material()
+	print("碰撞掩码", collision_mask)
 
 ## 设置小球的物理材质
 func setup_physics_material():
@@ -41,25 +50,25 @@ func initialize(flag: int = 0) -> void:
 			polygon_2d.color = Color.RED
 			damage = GameManage.redball_damage
 			initial_speed = GameManage.redball_speed
-			r = GameManage.redball_radius
+			#r = GameManage.redball_radius
 		1:
 			add_to_group("黄色小球")
 			polygon_2d.color = Color.YELLOW
 			damage = GameManage.yellowball_damage
 			initial_speed = GameManage.yellowball_speed
-			r = GameManage.yellowball_radius
+			#r = GameManage.yellowball_radius
 		2:
 			add_to_group("蓝色小球")
 			polygon_2d.color = Color.SKY_BLUE
 			damage = GameManage.blueball_damage
 			initial_speed = GameManage.blueball_speed
-			r = GameManage.blueball_radius
+			#r = GameManage.blueball_radius
 		3:
 			add_to_group("紫色小球")
 			polygon_2d.color = Color.MEDIUM_PURPLE
 			damage = GameManage.purpleball_damage
 			initial_speed = GameManage.purpleball_speed
-			r = GameManage.purpleball_radius
+			#r = GameManage.purpleball_radius
 	## 设置半径
 	cs_2p.setup_radius(r)
 	## 设置初始速度

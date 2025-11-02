@@ -1,34 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://sjkciycp4sm6"]
+[gd_scene load_steps=5 format=3 uid="uid://sjkciycp4sm6"]
 
 [ext_resource type="PackedScene" uid="uid://bsb7u55kwgp5q" path="res://scenes/wall.tscn" id="1_j68yi"]
 [ext_resource type="Script" uid="uid://cb77b54mmrfso" path="res://scripts/测试用场景.gd" id="1_ja5ug"]
 [ext_resource type="PackedScene" uid="uid://l28w4r2njqbr" path="res://scenes/brick.tscn" id="2_4ms6i"]
 [ext_resource type="PackedScene" uid="uid://4bi461trk0xs" path="res://scenes/ball.tscn" id="3_4ms6i"]
-[ext_resource type="Script" uid="uid://brut6friga66e" path="res://scripts/poly_resource.gd" id="3_tp8xh"]
-[ext_resource type="Resource" uid="uid://dss1u8o65cua4" path="res://resources/world_res/map/map_001.tres" id="4_7efvk"]
-[ext_resource type="Resource" uid="uid://klbl6slnbfv6" path="res://resources/world_res/map/map_002.tres" id="5_1cqqd"]
-[ext_resource type="Resource" uid="uid://bhexpgsg8pmvf" path="res://resources/world_res/map/map_003.tres" id="6_6teqi"]
-[ext_resource type="Resource" uid="uid://8v16fcep4wth" path="res://resources/world_res/map/map_004.tres" id="7_8k1cj"]
-[ext_resource type="Resource" uid="uid://bqo5v7obg3mcc" path="res://resources/world_res/map/map_005.tres" id="8_2ptrs"]
-[ext_resource type="Resource" uid="uid://bcffr26xq3utw" path="res://resources/world_res/map/map_006.tres" id="9_phnye"]
-
-[sub_resource type="Resource" id="Resource_pmnwi"]
-script = ExtResource("3_tp8xh")
-self_type = 2
-name = "map_6"
-self_polygon = PackedVector2Array(0, 100, 744, 96, 1400, 1000, 100, 1000, 744, 96, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tp8xh"]
-bounce = 1.0
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7efvk"]
-bounce = 1.0
 
 [node name="测试用场景" type="Node2D"]
 script = ExtResource("1_ja5ug")
 
 [node name="wall" parent="." instance=ExtResource("1_j68yi")]
-maps = Array[ExtResource("3_tp8xh")]([ExtResource("4_7efvk"), ExtResource("5_1cqqd"), ExtResource("6_6teqi"), ExtResource("7_8k1cj"), ExtResource("8_2ptrs"), ExtResource("9_phnye"), SubResource("Resource_pmnwi")])
 
 [node name="bricks" type="Node2D" parent="."]
 
@@ -71,9 +51,7 @@ position = Vector2(1224, 412)
 [node name="balls" type="Node2D" parent="."]
 
 [node name="ball" parent="balls" instance=ExtResource("3_4ms6i")]
-position = Vector2(280, 913)
-physics_material_override = SubResource("PhysicsMaterial_tp8xh")
+position = Vector2(390, 901)
 
 [node name="ball2" parent="balls" instance=ExtResource("3_4ms6i")]
-position = Vector2(1063, 911)
-physics_material_override = SubResource("PhysicsMaterial_7efvk")
+position = Vector2(1105, 901)

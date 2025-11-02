@@ -1,16 +1,25 @@
+@tool
 extends RigidBody2D
+class_name PolygonBrick
 
-@export var max_health: int = 999
-@export var hits_required: int = 99
-@export var shape: PackedVector2Array = PackedVector2Array()
-
-const FLOATING_TEXT = preload("res://scenes/floating_text.tscn")
+const FLOATING_TEXT = preload("uid://ebscwkx2hncl")
 
 @onready var polygon_2d: Polygon2D = $Polygon2D
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var p_2cp: P2CP = $P2CP
 @onready var label: Label = $Label
 
+@export var max_health: int = 999
+@export var hits_required: int = 99:
+	set(value):
+		hits_required = value
+		update_display()
+@export var shape: PackedVector2Array = PackedVector2Array():
+	set(value):
+		shape = value
+		if polygon_2d and p_2cp:
+			polygon_2d.polygon = shape
+			p_2cp.re_shape()
 
 func _ready():
 	update_display()
@@ -31,7 +40,7 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 	var ft := FLOATING_TEXT.instantiate()
 	add_child(ft)
 	ft.global_position = global_position + Vector2.UP * 30 + Vector2(randi_range(-30, 30), 0)
-	ft.display_damage_text(actual_damage, flag)
+	ft.display_damage_text(str(actual_damage), flag)
 	if hits_required <= 0:
 		queue_free()
 		#get_tree().call_group("game", "brick_destroyed")
@@ -53,14 +62,15 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 			"from": "mouse"
 			})
 	update_display()
-	
+
+## 砖块生命映射到砖块颜色
 func update_display():
 	label.text = str(hits_required)
 	polygon_2d.modulate = Color(0.8 - float(hits_required)/ 99, 0.5, 1 - float(hits_required)/ 99)
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
-		#print("砖块收到点击事件！位置：", event.position)
+		print("砖块收到点击事件", shape_idx)
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if GameManage.can_mouse:
 				take_hit(GameManage.mouse_click, 1)

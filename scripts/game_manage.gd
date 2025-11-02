@@ -33,7 +33,7 @@ var redball_radius: float = 5
 ## 黄球
 var yellowball_damage: int = 1
 var yellowball_speed: float = 1000
-var yellowball_radius: float = 20
+var yellowball_radius: float = 100
 ## 蓝球
 var blueball_damage: int = 4
 var blueball_speed: float = 100
