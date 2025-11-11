@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://4bi461trk0xs"]
+
+[ext_resource type="Script" uid="uid://dwf6uawg3in6k" path="res://scripts/componnets/CollisionShape2polygon.gd" id="1_7s4qf"]
+[ext_resource type="Script" uid="uid://di275fwyrwd7u" path="res://scripts/ball.gd" id="1_cxlvu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n1dj2"]
+radius = 12.0
+
+[sub_resource type="Curve" id="Curve_cxlvu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967742, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Ball" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+input_pickable = true
+motion_mode = 1
+script = ExtResource("1_cxlvu")
+initial_speed = null
+max_speed = null
+r = 18.0
+max_r = null
+damage = null
+maintain_speed = null
+enable_direction_filter = null
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+antialiased = true
+polygon = PackedVector2Array(36, 0, 32.887638, 14.642519, 24.088701, 26.753214, 11.124612, 34.238033, -3.7630246, 35.802788, -18, 31.176914, -29.12461, 21.160269, -35.213314, 7.484821, -35.213314, -7.484821, -29.12461, -21.160269, -18, -31.176914, -3.7630246, -35.802788, 11.124612, -34.238033, 24.088701, -26.753214, 32.887638, -14.642519)
+uv = PackedVector2Array(36, 0, 32.887638, 14.642519, 24.088701, 26.753214, 11.124612, 34.238033, -3.7630246, 35.802788, -18, 31.176914, -29.12461, 21.160269, -35.213314, 7.484821, -35.213314, -7.484821, -29.12461, -21.160269, -18, -31.176914, -3.7630246, -35.802788, 11.124612, -34.238033, 24.088701, -26.753214, 32.887638, -14.642519)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n1dj2")
+
+[node name="CS2P" type="Node" parent="." node_paths=PackedStringArray("collision", "polygon")]
+script = ExtResource("1_7s4qf")
+collision = NodePath("../CollisionShape2D")
+polygon = NodePath("../Polygon2D")
+esp = 15
+metadata/_custom_type_script = "uid://dwf6uawg3in6k"
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "(0.0, 0.0)"
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 5.0
+width_curve = SubResource("Curve_cxlvu")

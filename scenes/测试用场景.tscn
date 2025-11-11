@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://sjkciycp4sm6"]
+[gd_scene load_steps=13 format=3 uid="uid://sjkciycp4sm6"]
 
 [ext_resource type="PackedScene" uid="uid://bsb7u55kwgp5q" path="res://scenes/wall.tscn" id="1_j68yi"]
 [ext_resource type="Script" uid="uid://cb77b54mmrfso" path="res://scripts/测试用场景.gd" id="1_ja5ug"]
@@ -18,12 +18,6 @@ self_type = 2
 name = "map_6"
 self_polygon = PackedVector2Array(0, 100, 744, 96, 1400, 1000, 100, 1000, 744, 96, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tp8xh"]
-bounce = 1.0
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7efvk"]
-bounce = 1.0
-
 [node name="测试用场景" type="Node2D"]
 script = ExtResource("1_ja5ug")
 
@@ -34,46 +28,56 @@ maps = Array[ExtResource("3_tp8xh")]([ExtResource("4_7efvk"), ExtResource("5_1cq
 
 [node name="brick" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(439, 340)
+shape = PackedVector2Array()
 
 [node name="brick2" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(311, 340)
+shape = PackedVector2Array()
 
 [node name="brick3" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(375, 412)
+shape = PackedVector2Array()
 
 [node name="brick4" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(311, 494)
+shape = PackedVector2Array()
 
 [node name="brick5" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(439, 494)
+shape = PackedVector2Array()
 
 [node name="brick6" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(503, 412)
+shape = PackedVector2Array()
 
 [node name="brick7" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(1160, 340)
+shape = PackedVector2Array()
 
 [node name="brick8" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(1032, 340)
+shape = PackedVector2Array()
 
 [node name="brick9" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(1096, 412)
+shape = PackedVector2Array()
 
 [node name="brick10" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(1032, 494)
+shape = PackedVector2Array()
 
 [node name="brick11" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(1160, 494)
+shape = PackedVector2Array()
 
 [node name="brick12" parent="bricks" instance=ExtResource("2_4ms6i")]
 position = Vector2(1224, 412)
+shape = PackedVector2Array()
 
 [node name="balls" type="Node2D" parent="."]
 
 [node name="ball" parent="balls" instance=ExtResource("3_4ms6i")]
 position = Vector2(280, 913)
-physics_material_override = SubResource("PhysicsMaterial_tp8xh")
 
 [node name="ball2" parent="balls" instance=ExtResource("3_4ms6i")]
 position = Vector2(1063, 911)
-physics_material_override = SubResource("PhysicsMaterial_7efvk")

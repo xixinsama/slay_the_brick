@@ -1,5 +1,5 @@
 @tool
-extends RigidBody2D
+extends CharacterBody2D
 class_name PolygonBrick
 
 const FLOATING_TEXT = preload("uid://ebscwkx2hncl")
@@ -20,6 +20,10 @@ const FLOATING_TEXT = preload("uid://ebscwkx2hncl")
 		if polygon_2d and p_2cp:
 			polygon_2d.polygon = shape
 			p_2cp.re_shape()
+@export var flag: int = 0:
+	set(value):
+		flag = value
+		update_display()
 
 func _ready():
 	update_display()
@@ -29,7 +33,7 @@ func _ready():
 
 ## 出伤函数
 ## 0表示球，1表示鼠标
-func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
+func take_hit(hurt: int = 1, source_type: int = 0, node: Node =  null):
 	var actual_damage: int
 	if hurt >= hits_required: 
 		actual_damage = hits_required
@@ -40,12 +44,12 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 	var ft := FLOATING_TEXT.instantiate()
 	add_child(ft)
 	ft.global_position = global_position + Vector2.UP * 30 + Vector2(randi_range(-30, 30), 0)
-	ft.display_damage_text(str(actual_damage), flag)
+	ft.display_damage_text(str(actual_damage), source_type)
 	if hits_required <= 0:
 		queue_free()
 		#get_tree().call_group("game", "brick_destroyed")
 	# 计算分数，并登记
-	if flag == 0: ## 球出伤
+	if source_type == 0: ## 球出伤
 		GameManage.gold_points += GameManage.ball2points * actual_damage
 		GameManage.value_logs.append({
 			"name": self.name,
@@ -53,7 +57,7 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 			"points": GameManage.ball2points * actual_damage,
 			"from": node.name
 			})
-	elif flag == 1:  ## 鼠标出伤
+	elif source_type == 1:  ## 鼠标出伤
 		GameManage.gold_points += GameManage.mouse2points * actual_damage
 		GameManage.value_logs.append({
 			"name": self.name,
@@ -65,8 +69,9 @@ func take_hit(hurt: int = 1, flag: int = 0, node: Node =  null):
 
 ## 砖块生命映射到砖块颜色
 func update_display():
-	label.text = str(hits_required)
-	polygon_2d.modulate = Color(0.8 - float(hits_required)/ 99, 0.5, 1 - float(hits_required)/ 99)
+	if label and polygon_2d:
+		label.text = str(hits_required)
+		polygon_2d.modulate = Color(0.8 - float(hits_required)/ 99, 0.5, 1 - float(hits_required)/ 99)
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:

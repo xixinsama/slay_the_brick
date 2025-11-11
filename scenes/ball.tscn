@@ -1,34 +1,85 @@
-[gd_scene load_steps=6 format=3 uid="uid://4bi461trk0xs"]
+[gd_scene load_steps=18 format=3 uid="uid://4bi461trk0xs"]
 
 [ext_resource type="Script" uid="uid://dwf6uawg3in6k" path="res://scripts/componnets/CollisionShape2polygon.gd" id="1_7s4qf"]
 [ext_resource type="Script" uid="uid://di275fwyrwd7u" path="res://scripts/ball.gd" id="1_cxlvu"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cxlvu"]
-bounce = 1.0
+[ext_resource type="Shader" uid="uid://c4fiovdsbxqry" path="res://assets/shader/all_in_one_blotchy_aura.gdshader" id="1_f7cbr"]
+[ext_resource type="Shader" uid="uid://csp386dpuiap" path="res://scenes/fire.gdshader" id="3_f7cbr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n1dj2"]
-radius = 36.0
+radius = 18.0
 
 [sub_resource type="Curve" id="Curve_cxlvu"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967742, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="ball" type="RigidBody2D"]
+[sub_resource type="Gradient" id="Gradient_f7cbr"]
+offsets = PackedFloat32Array(0.016393442, 0.784153, 1)
+colors = PackedColorArray(0.5137255, 0.7411765, 0.972549, 1, 0.9490196, 0.9490196, 0.73333335, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4dx81"]
+gradient = SubResource("Gradient_f7cbr")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eew57"]
+shader = ExtResource("1_f7cbr")
+shader_parameter/maxLineWidth = 10.0
+shader_parameter/minLineWidth = 5.0
+shader_parameter/speed = 1.0
+shader_parameter/blockSize = 20.0
+shader_parameter/color = SubResource("GradientTexture2D_4dx81")
+shader_parameter/gradientResolution = 10
+shader_parameter/tolerance = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_f7cbr"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Gradient" id="Gradient_4dx81"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_eew57"]
+seed = 1
+frequency = 0.0227
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jj7gd"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_eew57")
+color_ramp = SubResource("Gradient_4dx81")
+
+[sub_resource type="Gradient" id="Gradient_fwo8l"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_v8l5b"]
+noise_type = 3
+seed = 41
+frequency = 0.02
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iijjg"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_v8l5b")
+color_ramp = SubResource("Gradient_fwo8l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f7kxq"]
+shader = ExtResource("3_f7cbr")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_iijjg")
+shader_parameter/gradient_tex = SubResource("NoiseTexture2D_jj7gd")
+shader_parameter/brighter_color = Color(1, 0.8, 0, 1)
+shader_parameter/middle_color = Color(1, 0.56, 0, 1)
+shader_parameter/darker_color = Color(0.64, 0.2, 0.05, 1)
+shader_parameter/spread = 0.5
+
+[node name="Ball" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 3
-physics_material_override = SubResource("PhysicsMaterial_cxlvu")
-gravity_scale = 0.0
-lock_rotation = true
-continuous_cd = 2
-contact_monitor = true
-max_contacts_reported = 4
-linear_damp_mode = 1
+input_pickable = true
+motion_mode = 1
 script = ExtResource("1_cxlvu")
-r = 18.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 antialiased = true
-polygon = PackedVector2Array(36, 0, 32.887638, 14.642519, 24.088701, 26.753214, 11.124612, 34.238033, -3.7630246, 35.802788, -18, 31.176914, -29.12461, 21.160269, -35.213314, 7.484821, -35.213314, -7.484821, -29.12461, -21.160269, -18, -31.176914, -3.7630246, -35.802788, 11.124612, -34.238033, 24.088701, -26.753214, 32.887638, -14.642519)
+polygon = PackedVector2Array(18, 0, 15.142564, 9.731535, 7.4774704, 16.373377, -2.5616672, 17.816786, -11.787493, 13.603493, -17.270874, 5.071186, -17.270874, -5.071186, -11.787493, -13.603493, -2.5616672, -17.816786, 7.4774704, -16.373377, 15.142564, -9.731535)
+uv = PackedVector2Array(36, 0, 32.887638, 14.642519, 24.088701, 26.753214, 11.124612, 34.238033, -3.7630246, 35.802788, -18, 31.176914, -29.12461, 21.160269, -35.213314, 7.484821, -35.213314, -7.484821, -29.12461, -21.160269, -18, -31.176914, -3.7630246, -35.802788, 11.124612, -34.238033, 24.088701, -26.753214, 32.887638, -14.642519)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_n1dj2")
@@ -37,10 +88,11 @@ shape = SubResource("CircleShape2D_n1dj2")
 script = ExtResource("1_7s4qf")
 collision = NodePath("../CollisionShape2D")
 polygon = NodePath("../Polygon2D")
-esp = 15
+esp = 11
 metadata/_custom_type_script = "uid://dwf6uawg3in6k"
 
 [node name="Label" type="Label" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -49,6 +101,36 @@ grow_vertical = 2
 text = "(0.0, 0.0)"
 
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 points = PackedVector2Array(0, 0, 0, 0)
 width = 5.0
 width_curve = SubResource("Curve_cxlvu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_eew57")
+texture = SubResource("ViewportTexture_f7cbr")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+msaa_2d = 1
+screen_space_aa = 1
+use_hdr_2d = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(64, 64)
+
+[node name="Polygon2D2" type="Polygon2D" parent="SubViewport"]
+visible = false
+position = Vector2(32, 32)
+antialiased = true
+polygon = PackedVector2Array(18, 0, 15.142564, 9.731535, 7.4774704, 16.373377, -2.5616672, 17.816786, -11.787493, 13.603493, -17.270874, 5.071186, -17.270874, -5.071186, -11.787493, -13.603493, -2.5616672, -17.816786, 7.4774704, -16.373377, 15.142564, -9.731535)
+uv = PackedVector2Array(36, 0, 32.887638, 14.642519, 24.088701, 26.753214, 11.124612, 34.238033, -3.7630246, 35.802788, -18, 31.176914, -29.12461, 21.160269, -35.213314, 7.484821, -35.213314, -7.484821, -29.12461, -21.160269, -18, -31.176914, -3.7630246, -35.802788, 11.124612, -34.238033, 24.088701, -26.753214, 32.887638, -14.642519)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_f7kxq")
+custom_minimum_size = Vector2(64, 64)
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0

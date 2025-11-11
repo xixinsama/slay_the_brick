@@ -1,0 +1,63 @@
+[gd_scene load_steps=17 format=3 uid="uid://bw44pfvpan3sp"]
+
+[ext_resource type="Script" uid="uid://l22xgho3760q" path="res://scripts/min_world.gd" id="1_fbmlb"]
+[ext_resource type="PackedScene" uid="uid://bsb7u55kwgp5q" path="res://scenes/wall.tscn" id="2_xr0j3"]
+[ext_resource type="Script" uid="uid://brut6friga66e" path="res://scripts/poly_resource.gd" id="3_i87js"]
+[ext_resource type="Resource" uid="uid://dss1u8o65cua4" path="res://resources/world_res/map/map_001.tres" id="4_uf3sa"]
+[ext_resource type="Resource" uid="uid://klbl6slnbfv6" path="res://resources/world_res/map/map_002.tres" id="5_tvbub"]
+[ext_resource type="Resource" uid="uid://bhexpgsg8pmvf" path="res://resources/world_res/map/map_003.tres" id="6_pvu6u"]
+[ext_resource type="Resource" uid="uid://8v16fcep4wth" path="res://resources/world_res/map/map_004.tres" id="7_n4ulh"]
+[ext_resource type="Resource" uid="uid://bqo5v7obg3mcc" path="res://resources/world_res/map/map_005.tres" id="8_6b58m"]
+[ext_resource type="Resource" uid="uid://bcffr26xq3utw" path="res://resources/world_res/map/map_006.tres" id="9_ruiai"]
+[ext_resource type="Script" uid="uid://bxku3rb2qrtmc" path="res://scripts/spawn_direction.gd" id="11_75tca"]
+
+[sub_resource type="Resource" id="Resource_pmnwi"]
+script = ExtResource("3_i87js")
+self_type = 2
+name = "map_6"
+self_polygon = PackedVector2Array(0, 100, 744, 96, 1400, 1000, 100, 1000, 744, 96, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_sbeqh"]
+script = ExtResource("3_i87js")
+self_type = 2
+name = "map_7"
+self_polygon = PackedVector2Array(768, 256, 704, 640, 448, 640, 384, 256, 256, 128, 384, 704, 768, 704, 896, 128)
+
+[sub_resource type="Resource" id="Resource_t7ec6"]
+script = ExtResource("3_i87js")
+self_type = 2
+name = "map_8"
+self_polygon = PackedVector2Array(1475, 0, 1400, 1000, 100, 1000, 25, 0, 0, 0, 0, 1080, 1500, 1080, 1500, 0)
+
+[sub_resource type="Resource" id="Resource_bgujp"]
+script = ExtResource("3_i87js")
+self_type = 2
+name = "map_9"
+self_polygon = PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_t3v2j"]
+script = ExtResource("3_i87js")
+self_type = 2
+name = "map_10"
+self_polygon = PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
+
+[sub_resource type="Curve" id="Curve_hjfpu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 0.49945378), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="MinWorld" type="Node2D"]
+script = ExtResource("1_fbmlb")
+
+[node name="Wall" parent="." instance=ExtResource("2_xr0j3")]
+maps = Array[ExtResource("3_i87js")]([ExtResource("4_uf3sa"), ExtResource("5_tvbub"), ExtResource("6_pvu6u"), ExtResource("7_n4ulh"), ExtResource("8_6b58m"), ExtResource("9_ruiai"), SubResource("Resource_pmnwi"), SubResource("Resource_sbeqh"), SubResource("Resource_t7ec6"), SubResource("Resource_bgujp"), SubResource("Resource_t3v2j")])
+
+[node name="Bricks" type="Node2D" parent="."]
+
+[node name="Spawn_here" type="Marker2D" parent="."]
+position = Vector2(723, 132)
+gizmo_extents = 50.0
+
+[node name="Line2D" type="Line2D" parent="Spawn_here"]
+points = PackedVector2Array(-1.57361e-06, 36, 0, 0, 36, 0)
+width_curve = SubResource("Curve_hjfpu")
+script = ExtResource("11_75tca")

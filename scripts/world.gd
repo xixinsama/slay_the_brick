@@ -1,33 +1,32 @@
 extends Node2D
+## 战斗场景主脚本
+## 负责生成小球，砖块，以及管理回合时间
 class_name MainWorld
 
-## 挂载节点的节点
-@onready var wall: WallMap = $wall
-@onready var bricks_here: Node2D = $bricks
-@onready var balls_here: Node2D = $balls
-@onready var spawn_here: Marker2D = $spawn_here
+@onready var wall: WallMap = $Wall
+@onready var bricks: Node2D = $Bricks
+@onready var balls: Node2D = $Balls
+@onready var spawn_here: Marker2D = $Spawn_here
+@onready var line_2d: ClockLine = $Spawn_here/Line2D
 @onready var color_rect: ColorRect = $ColorRect
 @onready var round_countdown: Timer = $round_countdown
 @onready var label: Label = $Label
 
 var scene: PackedScene
-const BALL = preload("res://scenes/ball.tscn")
-const BRICK = preload("res://scenes/brick.tscn")
+const BALL = preload("uid://4bi461trk0xs")
+const BRICK = preload("uid://l28w4r2njqbr")
 
-var balls: Array[PinBall] = []
+var all_balls: Array[PinBall] = []
 var num2balls: Array[int] = []
 
 signal ball_phase_end
 
 ## 测试用
 func _ready() -> void:
-	#num2balls =  Array(range(4), TYPE_INT, "", null) 
-	#num_sqawn_ball()
 	set_process(false)
 	round_countdown.timeout.connect(_phase_end)
-	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	label.text = "倒计时："+str(round_countdown.time_left)
 
 func begin_play_ball() -> void:
@@ -37,7 +36,8 @@ func begin_play_ball() -> void:
 	round_countdown.start()
 	color_rect.hide()
 	set_process(true)
-	
+
+## 实例化子场景
 func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene, flag: int = 0) -> Node:
 	assert(scene is PackedScene, "Error: The scene export was never set on this spawner component.")
 	var instance = scene.instantiate()
@@ -51,7 +51,7 @@ func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_
 ## 生成位置固定，整数0123对应红黄蓝紫球等
 func spawn_ball(flag: int = 0) -> void:
 	scene = BALL
-	var ball = spawn(spawn_here.global_position, balls_here, flag)
+	var ball = spawn(spawn_here.global_position, balls, flag)
 	balls.append(ball)
 
 ## 将球对应为数字
@@ -62,22 +62,16 @@ func num_sqawn_ball() -> void:
 	for i in num2balls:
 		spawn_ball(i)
 
-
-## 按模式生成砖(未完成)
-func spawn_brick(mod: int = 0) -> void:
-	scene = BRICK
-	pass
-
 ## 清空小球
 func clear_balls() -> void:
-	var Balls = balls_here.get_children()
+	var Balls = balls.get_children()
 	for b in Balls:
 		b.queue_free()
 	balls.clear()
 	num2balls.clear()
 ## 清空砖块
 func clear_bricks() -> void:
-	var Bricks = bricks_here.get_children()
+	var Bricks = bricks.get_children()
 	for b in Bricks:
 		b.queue_free()
 ## 清空所有，每回合都清空
@@ -91,3 +85,6 @@ func _phase_end() -> void:
 	ball_phase_end.emit()
 	clear_all()
 	
+func export_brick_mode_data() -> void:
+	for brick in bricks.get_children():
+		pass

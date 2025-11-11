@@ -1,9 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmjmjwiypp8j0"]
+[gd_scene load_steps=8 format=3 uid="uid://dmjmjwiypp8j0"]
 
 [ext_resource type="PackedScene" uid="uid://bsb7u55kwgp5q" path="res://scenes/wall.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://b34ud7yta5ner" path="res://scripts/world.gd" id="1_sugp2"]
-[ext_resource type="PackedScene" uid="uid://l28w4r2njqbr" path="res://scenes/brick.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://l28w4r2njqbr" path="res://scenes/brick.tscn" id="3_71j4m"]
+[ext_resource type="Script" uid="uid://bxku3rb2qrtmc" path="res://scripts/spawn_direction.gd" id="3_k0juu"]
 [ext_resource type="Shader" uid="uid://bewtejr0qy2an" path="res://resources/shader/high_light.gdshader" id="4_k0juu"]
+
+[sub_resource type="Curve" id="Curve_71j4m"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 0.49945378), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_71j4m"]
 shader = ExtResource("4_k0juu")
@@ -21,101 +26,363 @@ shader_parameter/Alpha = 1.0
 [node name="world" type="Node2D"]
 script = ExtResource("1_sugp2")
 
-[node name="wall" parent="." instance=ExtResource("1_o5qli")]
+[node name="Wall" parent="." instance=ExtResource("1_o5qli")]
 
-[node name="bricks" type="Node2D" parent="."]
+[node name="Bricks" type="Node2D" parent="."]
 
-[node name="brick" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(369, 494)
+[node name="Brick" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick2" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(545, 511)
+[node name="Brick2" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(408, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick3" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(623, 494)
+[node name="Brick3" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick4" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(623, 575)
+[node name="Brick4" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(600, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick5" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(495, 575)
+[node name="Brick5" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(696, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick6" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(495, 656)
+[node name="Brick6" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(792, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick7" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(369, 575)
+[node name="Brick7" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(888, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick8" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(623, 656)
+[node name="Brick8" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick9" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(749, 656)
+[node name="Brick9" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1080, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick10" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(877, 656)
+[node name="Brick10" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 278)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick11" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(877, 737)
+[node name="Brick11" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick12" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(749, 737)
+[node name="Brick12" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(408, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick13" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(749, 818)
+[node name="Brick13" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick14" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(623, 737)
+[node name="Brick14" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(600, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick15" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(877, 494)
+[node name="Brick15" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(696, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick16" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1003, 494)
+[node name="Brick16" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(792, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick17" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1131, 494)
+[node name="Brick17" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(888, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick18" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1131, 575)
+[node name="Brick18" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick19" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1003, 575)
+[node name="Brick19" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1080, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick20" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(1003, 656)
+[node name="Brick20" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 903)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick21" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(877, 575)
+[node name="Brick21" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 855)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick22" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(623, 332)
+[node name="Brick22" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 807)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick23" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(749, 332)
+[node name="Brick23" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 759)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick24" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(877, 332)
+[node name="Brick24" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 711)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick25" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(877, 413)
+[node name="Brick25" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 663)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick26" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(749, 413)
+[node name="Brick26" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 615)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick27" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(749, 494)
+[node name="Brick27" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 566)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="brick28" parent="bricks" instance=ExtResource("2_sugp2")]
-position = Vector2(623, 413)
+[node name="Brick28" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 518)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="balls" type="Node2D" parent="."]
+[node name="Brick29" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 470)
+hits_required = 10
+shape = PackedVector2Array()
 
-[node name="spawn_here" type="Marker2D" parent="."]
-position = Vector2(267, 268)
+[node name="Brick30" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 422)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick31" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 374)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick32" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(312, 326)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick33" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 855)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick34" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 807)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick35" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 759)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick36" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 711)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick37" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 663)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick38" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 615)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick39" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 566)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick40" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 518)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick41" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 470)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick42" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 422)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick43" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 374)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick44" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(1176, 326)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick45" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 711)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick46" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 663)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick47" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 615)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick48" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 567)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick49" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 519)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick50" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(504, 471)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick51" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 710)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick52" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 662)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick53" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 614)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick54" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 566)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick55" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 518)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick56" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(984, 470)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick57" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(600, 471)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick58" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(696, 471)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick59" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(792, 471)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick60" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(888, 471)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick61" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(600, 711)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick62" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(696, 711)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick63" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(792, 711)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Brick65" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(696, 615)
+hits_required = 20
+shape = PackedVector2Array()
+
+[node name="Brick66" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(792, 615)
+hits_required = 20
+shape = PackedVector2Array()
+
+[node name="Brick67" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(696, 566)
+hits_required = 20
+shape = PackedVector2Array()
+
+[node name="Brick68" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(792, 566)
+hits_required = 20
+shape = PackedVector2Array()
+
+[node name="Brick64" parent="Bricks" instance=ExtResource("3_71j4m")]
+position = Vector2(888, 711)
+hits_required = 10
+shape = PackedVector2Array()
+
+[node name="Balls" type="Node2D" parent="."]
+
+[node name="Spawn_here" type="Marker2D" parent="."]
+position = Vector2(723, 132)
 gizmo_extents = 50.0
 
+[node name="Line2D" type="Line2D" parent="Spawn_here"]
+points = PackedVector2Array(-1.57361e-06, 36, 0, 0, 36, 0)
+width_curve = SubResource("Curve_71j4m")
+script = ExtResource("3_k0juu")
+
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_71j4m")
 custom_minimum_size = Vector2(1500, 1080)
 offset_right = 1500.0

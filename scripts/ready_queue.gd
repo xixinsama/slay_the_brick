@@ -3,9 +3,8 @@ extends ColorRect
 
 var card_instances: Array[Card] = [] # 当前显示的卡牌实例
 @export var fields: int = 13 ## 栏位数量
-
-var gap: float = 140.0 # 初始间隔距离
-var act_gap: float = 0 # 实际间隔距离
+@export var gap: float = 140.0 # 初始间隔距离
+@export var act_gap: float = 0 # 实际间隔距离
 var panel_range: Rect2 = get_rect()
 
 func _ready() -> void:
@@ -32,7 +31,7 @@ func add_card(new_card: Card):
 	_update_cards()
 
 ## 通过卡牌信息添加一张牌
-func add_card_by_base(new_base: CardBase):
+func draw_card(new_base: CardBase):
 	var card: Card = GameManage.get_card_instance()
 	if card:
 		self.add_child(card)

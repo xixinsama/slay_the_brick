@@ -31,7 +31,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/script-ide-ed1f866581692fde3217ccc0c2a571ce2092ede6/addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/brickmodeinfomation/plugin.cfg", "res://addons/script-ide-ed1f866581692fde3217ccc0c2a571ce2092ede6/addons/script-ide/plugin.cfg")
 
 [global_group]
 

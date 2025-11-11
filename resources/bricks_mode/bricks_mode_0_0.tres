@@ -1,0 +1,219 @@
+[gd_resource type="Resource" script_class="BrickMode" load_steps=45 format=3 uid="uid://bn6choigoallm"]
+
+[ext_resource type="Script" uid="uid://b7vgx5frdtvio" path="res://addons/brickmodeinfomation/brick_info.gd" id="1_7hv5x"]
+[ext_resource type="Script" uid="uid://blaurskx38wa0" path="res://addons/brickmodeinfomation/brick_mode.gd" id="2_ceq61"]
+
+[sub_resource type="Resource" id="Resource_7hv5x"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(274, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_ceq61"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(434, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_8j4st"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(594, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_bw1ur"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(754, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_gkk4x"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(914, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_5yc1n"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1074, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_hxoia"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1234, 301)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_m3inb"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(274, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_y0qvx"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(434, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_h7jie"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(594, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_e4gei"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(754, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_r5qfm"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(914, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_trqss"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1074, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_s3va5"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1234, 413)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_tkrkl"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(274, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_5camt"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(434, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_r24ya"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(594, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_2ra47"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(754, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_20v78"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(914, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_milcn"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1074, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_gid3n"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1234, 525)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_fh3fg"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(274, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_edhjd"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(434, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_nl7kv"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(594, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_t22v8"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(754, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_qjnwk"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(914, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_ha7dd"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1074, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_1owvq"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1234, 637)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_jqlot"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(274, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_3cgyu"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(434, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_7sm4f"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(594, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_qngwo"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(754, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_topmq"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(914, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_76ekj"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1074, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_dkmb6"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1234, 749)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_0g2bs"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(274, 861)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_orwlf"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(434, 861)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_6rb5n"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(594, 861)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_j0oqa"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(754, 861)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_t6c1b"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(914, 861)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_c2ylk"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1074, 861)
+brick_hp = 10
+
+[sub_resource type="Resource" id="Resource_rx1uj"]
+script = ExtResource("1_7hv5x")
+brick_position = Vector2(1234, 861)
+brick_hp = 10
+
+[resource]
+script = ExtResource("2_ceq61")
+mode_name = "42分散"
+mode_info = Array[ExtResource("1_7hv5x")]([SubResource("Resource_7hv5x"), SubResource("Resource_ceq61"), SubResource("Resource_8j4st"), SubResource("Resource_bw1ur"), SubResource("Resource_gkk4x"), SubResource("Resource_5yc1n"), SubResource("Resource_hxoia"), SubResource("Resource_m3inb"), SubResource("Resource_y0qvx"), SubResource("Resource_h7jie"), SubResource("Resource_e4gei"), SubResource("Resource_r5qfm"), SubResource("Resource_trqss"), SubResource("Resource_s3va5"), SubResource("Resource_tkrkl"), SubResource("Resource_5camt"), SubResource("Resource_r24ya"), SubResource("Resource_2ra47"), SubResource("Resource_20v78"), SubResource("Resource_milcn"), SubResource("Resource_gid3n"), SubResource("Resource_fh3fg"), SubResource("Resource_edhjd"), SubResource("Resource_nl7kv"), SubResource("Resource_t22v8"), SubResource("Resource_qjnwk"), SubResource("Resource_ha7dd"), SubResource("Resource_1owvq"), SubResource("Resource_jqlot"), SubResource("Resource_3cgyu"), SubResource("Resource_7sm4f"), SubResource("Resource_qngwo"), SubResource("Resource_topmq"), SubResource("Resource_76ekj"), SubResource("Resource_dkmb6"), SubResource("Resource_0g2bs"), SubResource("Resource_orwlf"), SubResource("Resource_6rb5n"), SubResource("Resource_j0oqa"), SubResource("Resource_t6c1b"), SubResource("Resource_c2ylk"), SubResource("Resource_rx1uj")])

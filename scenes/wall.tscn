@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bsb7u55kwgp5q"]
+[gd_scene load_steps=14 format=3 uid="uid://bsb7u55kwgp5q"]
 
 [ext_resource type="Script" uid="uid://ctdkqamdlki02" path="res://scripts/wall_map.gd" id="1_2ktk7"]
 [ext_resource type="Script" uid="uid://hy2c0n28yrwm" path="res://scripts/componnets/Polygon2Collisionshape.gd" id="1_wykyb"]
@@ -26,11 +26,17 @@ self_type = 2
 name = "map_7"
 self_polygon = PackedVector2Array(768, 256, 704, 640, 448, 640, 384, 256, 256, 128, 384, 704, 768, 704, 896, 128)
 
-[node name="wall" type="StaticBody2D"]
+[sub_resource type="Resource" id="Resource_t7ec6"]
+script = ExtResource("2_pmnwi")
+self_type = 2
+name = "map_8"
+self_polygon = PackedVector2Array(1475, 0, 1400, 1000, 100, 1000, 25, 0, 0, 0, 0, 1080, 1500, 1080, 1500, 0)
+
+[node name="Wall" type="StaticBody2D"]
 collision_mask = 6
 physics_material_override = SubResource("PhysicsMaterial_pmnwi")
 script = ExtResource("1_2ktk7")
-maps = Array[ExtResource("2_pmnwi")]([ExtResource("2_e00m8"), ExtResource("4_sbeqh"), ExtResource("5_t7ec6"), ExtResource("6_t0o0o"), ExtResource("7_38k74"), ExtResource("8_d7yut"), SubResource("Resource_pmnwi"), SubResource("Resource_sbeqh")])
+maps = Array[ExtResource("2_pmnwi")]([ExtResource("2_e00m8"), ExtResource("4_sbeqh"), ExtResource("5_t7ec6"), ExtResource("6_t0o0o"), ExtResource("7_38k74"), ExtResource("8_d7yut"), SubResource("Resource_pmnwi"), SubResource("Resource_sbeqh"), SubResource("Resource_t7ec6")])
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(0, 100, 1400, 100, 1400, 1000, 100, 1000, 100, 100, 0, 100, 0, 1080, 1500, 1080, 1500, 0, 0, 0)
